@@ -7,9 +7,7 @@ import { login } from '@/utils/userAuthentication';
 const UserAuthentication = () => {
   const router = useRouter();
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
+  const handleLogin = () => {
     const nameInput = document.getElementById('name-input') as HTMLInputElement;
     const emailInput = document.getElementById('email-input') as HTMLInputElement;
     
@@ -17,17 +15,16 @@ const UserAuthentication = () => {
     const email = emailInput.value;
 
     const clearInputs = () => {
-      (document.getElementById(
-          'name-input'
-        ) as HTMLInputElement).value = '';
-      (document.getElementById(
-          'email-input'
-        ) as HTMLInputElement).value = '';
-    }
+    (document.getElementById('name-input') as HTMLInputElement).value = '';
+    (document.getElementById('email-input') as HTMLInputElement).value = '';
+  }
 
-    Promise.all([login({ name: name, email: email }), clearInputs()]).then(
-      () => router.push('/dogs')
-    );
+    Promise.all([login({ name, email }), clearInputs()]).then(() => router.push('/dogs'))
+  }
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    handleLogin();
   }
   
   return (

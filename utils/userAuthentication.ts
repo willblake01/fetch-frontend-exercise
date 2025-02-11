@@ -18,10 +18,15 @@ export const login = async ({ name, email }: User) => {
       email: email
     })
   })
-  console.log('response: ', response)
+  
+  if (response.status === 200) {
+    return response
+  } else {
+    throw new Error('Failed to login')
+  }
 }
 
-export const logout = async({ name, email }: User) => {
+export const logout = async ({ name, email }: User) => {
   const route = '/auth/logout'
   
   const response = await fetch(baseUrl + route, {
@@ -34,4 +39,10 @@ export const logout = async({ name, email }: User) => {
       email: email
     })
   })
+  
+  if (response.status === 200) {
+    return response
+  } else {
+    throw new Error('Failed to login')
+  }
 }
