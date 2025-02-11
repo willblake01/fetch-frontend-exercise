@@ -14,8 +14,32 @@
   }
 }
 
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  margin: 0;
+}
+
 body {
   color: var(--foreground);
   background: var(--background);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+.logo {
+  height: 'max-content';
+  border-radius: 1.563rem;
+  width: 200px;
+  z-index: 9999;
+}
+
+.appBar {
+  padding: 1rem;
+  background: #7C1E6F;
+  color: #ffffff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
