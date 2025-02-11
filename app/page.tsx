@@ -1,8 +1,10 @@
-import Appbar from './components/Appbar';
+import { UserAuthentication } from './components';
 
 const Home = () => {
   return (
-    <Appbar />
+    <div className='flex justify-center align-center items-center size-full'>
+      <UserAuthentication />
+    </div>
   );
 }
 
