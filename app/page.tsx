@@ -1,10 +1,28 @@
+'use client'
+import React, { FC, useContext, useEffect } from 'react';
+import { useRouter } from 'next/navigation'
+import { Context } from './context';
 import { UserAuthentication } from './components';
 
-const Home = () => {
+const Home: FC = () => {
+  const router = useRouter();
+  interface UserContext {
+    isLoggedIn: boolean
+    setIsLoggedIn: React.Dispatch<React.SetStateAction<boolean>>
+  }
+
+  const {
+    isLoggedIn
+  } = useContext(Context) as unknown as UserContext
+
+  useEffect(() => {
+    if (isLoggedIn) {
+      router.push('/dogs')
+    }
+  })
+
   return (
-    <div className='flex justify-center align-center items-center size-full'>
-      <UserAuthentication />
-    </div>
+    <UserAuthentication />
   );
 }
 
