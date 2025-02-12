@@ -10,6 +10,7 @@ export const login = async ({ name, email }: User) => {
 
   const response = await fetch(baseUrl + route, {
     method: 'POST',
+    credentials: 'include',
     headers: {
       'Content-Type': 'application/json'
     },

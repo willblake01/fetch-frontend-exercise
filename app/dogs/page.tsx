@@ -2,6 +2,7 @@
 import React, { FC, useContext, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { Context } from '../context';
+import { fetchBreeds } from '../utils/fetchDogs';
 
 const Dogs: FC = () => {
   const Router = useRouter()
@@ -18,6 +19,7 @@ const Dogs: FC = () => {
     if (!isLoggedIn) {
       Router.push('/')
     }
+    fetchBreeds()
   })
 
   return (
