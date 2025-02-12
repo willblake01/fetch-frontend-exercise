@@ -8,7 +8,6 @@ const Dogs: FC = () => {
   const Router = useRouter()
   interface UserContext {
     isLoggedIn: boolean
-    setIsLoggedIn: React.Dispatch<React.SetStateAction<boolean>>
   }
 
   const {

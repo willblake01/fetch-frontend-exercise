@@ -14,6 +14,12 @@
   }
 }
 
+/* fonts.css */
+@font-face {
+  font-family: 'FingerPaint';
+  src: url('./fonts/FingerPaint-Regular.ttf') format('truetype');
+}
+
 * {
   box-sizing: border-box;
   margin: 0;
@@ -42,7 +48,6 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .app-bar {
-  padding: 1rem;
   background: #7C1E6F;
   color: #ffffff;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);

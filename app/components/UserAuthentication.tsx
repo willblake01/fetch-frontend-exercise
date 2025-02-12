@@ -9,7 +9,6 @@ const UserAuthentication: FC = () => {
   const router = useRouter();
 
   interface UserContext {
-    isLoggedIn: boolean
     setIsLoggedIn: React.Dispatch<React.SetStateAction<boolean>>
   }
 
