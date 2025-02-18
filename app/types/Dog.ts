@@ -6,3 +6,11 @@ export interface Dog {
   name: string
   zip_code: string
 }
+
+export interface DogMatch {
+  name: string
+  age: number
+  breed: string
+  zip_code: string
+  img: string
+}

@@ -2,8 +2,9 @@
 import { ChangeEvent, Dispatch, FC, SetStateAction, useCallback, useContext, useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { ThemeProvider, createTheme } from '@mui/material/styles';
+import { Button } from '@mui/material';
 import { Context } from '../../context';
-import { fetchDogIDs, fetchDogs } from '@/app/api/dogsApi';
+import { fetchDogIDs, fetchDogs, matchDog } from '@/app/api/dogsApi';
 import { LoadingSpinner, PaginationRounded } from '@/app/components/utils';
 import { DogCards, Filters } from './components';
 import type { Dog } from '../../types/Dog';
@@ -16,6 +17,8 @@ interface PageContext {
   setAgeMin: Dispatch<SetStateAction<string | null>>
   breeds: string[] | null
   setBreeds: Dispatch<SetStateAction<string[] | null>>
+  savedDogs: string[] | null
+  setSavedDogs: Dispatch<SetStateAction<string[] | null>>
   size: number | null
   setSize: Dispatch<SetStateAction<number | null>>
   sortDirection: string | null
@@ -38,7 +41,7 @@ interface DogIDs {
 const Dogs: FC = () => {
   const router = useRouter()
 
-  const { ageMax, setAgeMax, ageMin, setAgeMin, breeds, setBreeds, size, setSize, sortDirection, setSortDirection, sortField, setSortField, user, setUser , zipCodes, setZipCodes} =  useContext(Context
+  const { ageMax, setAgeMax, ageMin, setAgeMin, breeds, setBreeds, savedDogs, setSavedDogs, size, setSize, sortDirection, setSortDirection, sortField, setSortField, user, setUser, zipCodes, setZipCodes} =  useContext(Context
   ) as unknown as PageContext
 
   const [isLoading, setIsLoading] = useState(false)
@@ -56,16 +59,28 @@ const Dogs: FC = () => {
 
   const totalPages = Math.ceil(total / (size ? size : 25))
 
-  const resetContext = useCallback(() => {
+  const resetAllContext = useCallback(() => {
     setAgeMax(null)
     setAgeMin(null)
     setBreeds(null)
+    setSavedDogs(null)
     setSize(null)
     setSortDirection(null)
     setSortField(null)
     setUser(null)
     setZipCodes(null)
   }, [setAgeMax, setAgeMin, setBreeds, setSize, setSortDirection, setSortField, setUser, setZipCodes])
+  
+  const resetDogContext = useCallback(() => {
+    setAgeMax(null)
+    setAgeMin(null)
+    setBreeds([])
+    setSavedDogs([])
+    setSize(25)
+    setSortDirection('asc')
+    setSortField('breed')
+    setZipCodes(null)
+  }, [setAgeMax, setAgeMin, setBreeds, setSize, setSortDirection, setSortField, setZipCodes])
 
   const handleFetchDogIDs = useCallback(async () => {
     setIsLoading(true)
@@ -81,26 +96,53 @@ const Dogs: FC = () => {
       zipCodes: zipCodes || null,
     };
 
-    await fetchDogIDs({ params }).then(res => setDogIDs(res as DogIDs)).catch(error => {
+    await fetchDogIDs({ params }).then(res => {
+      if (res) {
+        setDogIDs(res as DogIDs)
+      }
+    }).catch(error => {
       const { message } = error
       if (message === 'Unauthorized') {
-        resetContext()
+        resetAllContext()
         router.push('/')
       }
     }).finally(() => setIsLoading(false))
-  }, [ageMax, ageMin, breeds, from, resetContext, router, size, setDogIDs, sortDirection, sortField, zipCodes])
+  }, [ageMax, ageMin, breeds, from, resetAllContext, router, size, setDogIDs, sortDirection, sortField, zipCodes])
 
   const handleFetchDogs = useCallback(async () => {
     setIsLoading(true);
 
-    await fetchDogs({ resultIds }).then(res => setDogs(res as Dog[])).catch(error => {
+    await fetchDogs({ resultIds }).then(res => {
+      if (res) {
+        setDogs(res as Dog[])
+      }
+    }).catch(error => {
       const { message } = error
       if (message === 'Unauthorized') {
-        resetContext()
+        resetAllContext()
         router.push('/')
       }
     }).finally(() => setIsLoading(false));
-  }, [resetContext, router, resultIds, setDogs])
+  }, [resetAllContext, router, resultIds, setDogs])
+
+  const handleMatchDog = () => {
+    matchDog({ savedDogs }).then(res => {
+      if (res) {
+        resetDogContext()
+
+        const match = res.match
+        
+        router.push(`/dog/${match}`)
+      }
+    }
+    ).catch(error => {
+      const { message } = error
+      if (message === 'Unauthorized') {
+        resetAllContext()
+        router.push('/')
+      }
+    })
+  }
 
   const handlePageChange = (event: ChangeEvent<unknown>, value: number) => {
     event.preventDefault()
@@ -129,8 +171,11 @@ const Dogs: FC = () => {
   return (
     <ThemeProvider theme={theme}>
       <div className='mb-20'>
-        <div className='flex justify-center align-center items-center size-full gap-4 p-6 mb-4'>
+        <div className='flex justify-center size-full gap-4 p-6'>
           <Filters />
+        </div>
+        <div className='flex justify-center items-center mb-4'>
+          <Button sx={{ background: '#7C1E6F', color: '#ffffff', padding: '0.5rem 1rem', borderRadius: '0.313rem' }} className='submit-button' onClick={() => handleMatchDog()} size='medium' type='button' variant='contained'>Match</Button>
         </div>
         <LoadingSpinner
           ariaLabel='dna-loading'

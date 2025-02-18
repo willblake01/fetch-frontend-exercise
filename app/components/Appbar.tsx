@@ -24,7 +24,7 @@ const AppBar: FC = () => {
 
   return (
     <div className='flex items-center justify-center m-0 p-4 app-bar'>
-      <Image alt='logo' className='logo' priority src={logo} style={{ left: 18, position: 'absolute' }} />
+      <Image alt='logo' className='logo' onClick={() => router.push('/')} priority src={logo} style={{ left: 18, position: 'absolute' }} />
       <Typography
         component={'h2'}
         dangerouslySetInnerHTML={{ __html: 'Rescue' }}

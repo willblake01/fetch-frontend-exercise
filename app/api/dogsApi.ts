@@ -89,3 +89,28 @@ export const fetchDogs = async ({ resultIds }: DogIDs) => {
     throw new Error('Failed to fetch dogs')
   }
 }
+
+interface SavedDogs {
+  savedDogs: string[] | null
+}
+
+export const matchDog = async ({ savedDogs }: SavedDogs) => {
+  const route = '/dogs/match'
+
+  const response = await fetch(baseUrl + route, {
+    method: 'POST',
+    credentials: 'include',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(savedDogs)
+  })
+
+  if (response.ok) {
+    const json = await response.json()
+    
+    return json
+  } else {
+    throw new Error('Failed to match dogs')
+  }
+}

@@ -9,6 +9,8 @@ interface ContextType {
   ageMin: string | null
   setAgeMin: Dispatch<SetStateAction<string | null>>
   breeds: string[] | null
+  savedDogs: string[] | null
+  setSavedDogs: Dispatch<SetStateAction<string[] | null>>
   setBreeds: Dispatch<SetStateAction<string[] | null>>
   size: string
   setSize: Dispatch<SetStateAction<string>>
@@ -31,6 +33,7 @@ export const ContextProvider = ({ children }: { children: ReactNode }) => {
   const [ageMax, setAgeMax] = useLocalStorage('ageMax', null)
   const [ageMin, setAgeMin] = useLocalStorage('ageMin', null)
   const [breeds, setBreeds] = useLocalStorage('breeds', [])
+  const [savedDogs, setSavedDogs] = useLocalStorage('savedDogs', [])
   const [size, setSize] = useLocalStorage('size', '25')
   const [sortDirection, setSortDirection] = useLocalStorage('sortDirection', 'asc')
   const [sortField, setSortField] = useLocalStorage('sortField', 'breed')
@@ -42,6 +45,8 @@ export const ContextProvider = ({ children }: { children: ReactNode }) => {
     ageMin,
     setAgeMin,
     breeds,
+    savedDogs,
+    setSavedDogs,
     setBreeds,
     size,
     setSize,
