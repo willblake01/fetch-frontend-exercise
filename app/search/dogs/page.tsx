@@ -155,6 +155,12 @@ const Dogs: FC = () => {
   }
 
   useEffect(() => {
+    if (!user) {
+      router.push('/')
+    }
+  }, [router, user])
+
+  useEffect(() => {
     handleFetchDogIDs()
   }, [ageMax, ageMin, breeds, from, handleFetchDogIDs, setDogIDs, size, setUser, zipCodes])
 
