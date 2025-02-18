@@ -19,8 +19,8 @@ interface PageContext {
   setBreeds: Dispatch<SetStateAction<string[] | null>>
   savedDogs: string[] | null
   setSavedDogs: Dispatch<SetStateAction<string[] | null>>
-  size: number | null
-  setSize: Dispatch<SetStateAction<number | null>>
+  size: string | null
+  setSize: Dispatch<SetStateAction<string | null>>
   sortDirection: string | null
   setSortDirection: Dispatch<SetStateAction<string | null>>
   sortField: string | null
@@ -49,7 +49,7 @@ const Dogs: FC = () => {
   const [dogIDs, setDogIDs] = useState<DogIDs>({ next: '', prev: '', resultIds: [], total: 0 })
   const { resultIds, total } = dogIDs
   const [page, setPage] = useState(1)
-  const [from, setFrom] = useState(0)
+  const [from, setFrom] = useState('0')
 
   const theme = createTheme({
     colorSchemes: {
@@ -57,7 +57,7 @@ const Dogs: FC = () => {
     },
   });
 
-  const totalPages = Math.ceil(total / (size ? size : 25))
+  const totalPages = Math.ceil(total / (size ? Number(size) : 25))
 
   const resetAllContext = useCallback(() => {
     setAgeMax(null)
@@ -69,18 +69,18 @@ const Dogs: FC = () => {
     setSortField(null)
     setUser(null)
     setZipCodes(null)
-  }, [setAgeMax, setAgeMin, setBreeds, setSize, setSortDirection, setSortField, setUser, setZipCodes])
+  }, [setAgeMax, setAgeMin, setBreeds, setSavedDogs, setSize, setSortDirection, setSortField, setUser, setZipCodes])
   
   const resetDogContext = useCallback(() => {
     setAgeMax(null)
     setAgeMin(null)
     setBreeds([])
     setSavedDogs([])
-    setSize(25)
+    setSize('25')
     setSortDirection('asc')
     setSortField('breed')
     setZipCodes(null)
-  }, [setAgeMax, setAgeMin, setBreeds, setSize, setSortDirection, setSortField, setZipCodes])
+  }, [setAgeMax, setAgeMin, setBreeds, setSavedDogs, setSize, setSortDirection, setSortField, setZipCodes])
 
   const handleFetchDogIDs = useCallback(async () => {
     setIsLoading(true)
@@ -150,15 +150,9 @@ const Dogs: FC = () => {
     setIsLoading(true)
     setPage(value)
 
-    const paginationCursor = (value - 1) * (size ? size : 25)
-    setFrom(paginationCursor)
+    const paginationCursor = (value - 1) * (Number(size) ? Number(size) : 25)
+    setFrom(paginationCursor.toString())
   }
-
-  useEffect(() => {
-    if (!user) {
-      router.push('/')
-    }
-  })
 
   useEffect(() => {
     handleFetchDogIDs()

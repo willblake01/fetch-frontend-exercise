@@ -20,7 +20,7 @@ const DogCard = ({ dog }: DogCardProps) => {
     if (!savedDogs.includes(dog.id)) {
       setSavedDogs([...savedDogs, dog.id])
     } else {
-      const updatedSavedDogs = savedDogs.filter((id) => id !== dog.id)
+      const updatedSavedDogs = savedDogs?.filter((id) => id !== dog.id)
       setSavedDogs(updatedSavedDogs)
     }
   }
@@ -28,7 +28,7 @@ const DogCard = ({ dog }: DogCardProps) => {
   const dogAgeText = dog.age > 1 ? 'years' : 'year'
 
   return (
-    <Card sx={{ border: savedDogs.includes(dog.id) ? '4px solid #7C1E6F' : null, borderRadius: '0.625rem', boxShadow: 3, maxWidth: 245 }}>
+    <Card sx={{ border: savedDogs?.includes(dog.id) ? '4px solid #7C1E6F' : null, borderRadius: '0.625rem', boxShadow: 3, maxWidth: 245 }}>
       <CardActionArea onClick={handleSavedDogs}>
         <CardMedia
           component='img'

@@ -13,7 +13,7 @@ interface PageContext {
   setAgeMin: Dispatch<SetStateAction<string | null>>
   setBreeds: Dispatch<SetStateAction<string[] | null>>
   setSavedDogs: Dispatch<SetStateAction<string[] | null>>
-  setSize: Dispatch<SetStateAction<number | null>>
+  setSize: Dispatch<SetStateAction<string | null>>
   setSortDirection: Dispatch<SetStateAction<string | null>>
   setSortField: Dispatch<SetStateAction<string | null>>
   setUser: Dispatch<SetStateAction<User | null>>
@@ -37,12 +37,12 @@ const Page: FC = () => {
       setAgeMin(null)
       setBreeds([])
       setSavedDogs([])
-      setSize(25)
+      setSize('25')
       setSortDirection('asc')
       setSortField('breed')
       setUser(null)
       setZipCodes(null)
-    }, [setAgeMax, setAgeMin, setBreeds, setSize, setSortDirection, setSortField, setUser, setZipCodes])
+    }, [setAgeMax, setAgeMin, setBreeds, setSavedDogs, setSize, setSortDirection, setSortField, setUser, setZipCodes])
 
   useEffect(() => {
     if (id) {
@@ -58,7 +58,7 @@ const Page: FC = () => {
       }
     }).finally(() => setIsLoading(false));
     }
-  }, [id])
+  }, [id, resetAllContext, router])
 
   return (
     <div className='flex items-center justify-center h-full'>
