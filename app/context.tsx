@@ -1,20 +1,58 @@
 'use client'
-import { createContext, ReactNode } from 'react'
+import { createContext, ReactNode, Dispatch, SetStateAction } from 'react'
 import { useLocalStorage } from './utils/useLocalStorage'
+import type { User } from './types/User'
 
 interface ContextType {
-  isLoggedIn: boolean
-  setIsLoggedIn: (value: boolean) => void
+  ageMax: string | null
+  setAgeMax: Dispatch<SetStateAction<string | null>>
+  ageMin: string | null
+  setAgeMin: Dispatch<SetStateAction<string | null>>
+  breeds: string[] | null
+  setBreeds: Dispatch<SetStateAction<string[] | null>>
+  size: string
+  setSize: Dispatch<SetStateAction<string>>
+  sortDirection: string
+  setSortDirection: Dispatch<SetStateAction<string>>
+  sortField: string
+  setSortField: Dispatch<SetStateAction<string>>
+  zipCodes: string[] | null
+  setZipCodes: Dispatch<SetStateAction<string[] | null>>
+  user: User | null
+  setUser: Dispatch<SetStateAction<User | null>>
 }
 
 export const Context = createContext<ContextType | null>(null)
 
 export const ContextProvider = ({ children }: { children: ReactNode }) => {
-  const [isLoggedIn, setIsLoggedIn] = useLocalStorage('isLoggedIn', false)
+  const [user, setUser] = useLocalStorage('user', null)
+
+  // Filters query params
+  const [ageMax, setAgeMax] = useLocalStorage('ageMax', null)
+  const [ageMin, setAgeMin] = useLocalStorage('ageMin', null)
+  const [breeds, setBreeds] = useLocalStorage('breeds', [])
+  const [size, setSize] = useLocalStorage('size', '25')
+  const [sortDirection, setSortDirection] = useLocalStorage('sortDirection', 'asc')
+  const [sortField, setSortField] = useLocalStorage('sortField', 'breed')
+  const [zipCodes, setZipCodes] = useLocalStorage('zipCodes', [])
 
   const context = {
-    isLoggedIn,
-    setIsLoggedIn
+    ageMax,
+    setAgeMax,
+    ageMin,
+    setAgeMin,
+    breeds,
+    setBreeds,
+    size,
+    setSize,
+    sortDirection,
+    setSortDirection,
+    sortField,
+    setSortField,
+    zipCodes,
+    setZipCodes,
+    user,
+    setUser
   }
 
   return (

@@ -1,9 +1,6 @@
-const baseUrl = 'https://frontend-take-home-service.fetch.com'
+import type { User } from '../types/User'
 
-interface User {
-  name: string
-  email: string
-}
+const baseUrl = 'https://frontend-take-home-service.fetch.com'
 
 export const login = async ({ name, email }: User) => {
   const route = '/auth/login'
@@ -20,7 +17,7 @@ export const login = async ({ name, email }: User) => {
     })
   })
   
-  if (response.status === 200) {
+  if (response.ok) {
     return response
   } else {
     throw new Error('Failed to login')
@@ -29,7 +26,7 @@ export const login = async ({ name, email }: User) => {
 
 export const logout = async ({ name, email }: User) => {
   const route = '/auth/logout'
-  
+
   const response = await fetch(baseUrl + route, {
     method: 'POST',
     credentials: 'include',
@@ -37,14 +34,14 @@ export const logout = async ({ name, email }: User) => {
       'Content-Type': 'application/json'
     },
     body: JSON.stringify({
-      name: name,
-      email: email
+      name,
+      email
     })
   })
-  
-  if (response.status === 200) {
+
+  if (response.ok) {
     return response
   } else {
-    throw new Error('Failed to login')
+    throw new Error('Failed to logut')
   }
 }
