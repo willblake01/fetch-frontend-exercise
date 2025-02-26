@@ -15,23 +15,24 @@ const useLocalStorage = (
       if (window !== undefined) {
         const valueInLocalStorage = window?.localStorage?.getItem(key)
 
-      if (valueInLocalStorage) {
-        setState(deserialize(valueInLocalStorage))
-      }
+        if (valueInLocalStorage) {
+          setState(deserialize(valueInLocalStorage))
+        }
       }
     } catch (error) {
       console.error(error)
     }
-}, [key, deserialize])
+  }, [key, deserialize])
 
   useEffect(() => {
     if (window !== undefined) {
       try {
         const prevKey = prevKeyRef.current
 
-      if (prevKey !== key) {
+        if (prevKey !== key) {
           window?.localStorage?.removeItem(prevKey)
         }
+        
         prevKeyRef.current = key
         window?.localStorage?.setItem(key, serialize(state))
       } catch (error) {

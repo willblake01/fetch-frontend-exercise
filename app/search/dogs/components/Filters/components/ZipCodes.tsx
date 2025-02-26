@@ -1,14 +1,9 @@
 import { FC, useContext } from 'react'
 import { TextField } from '@mui/material';
-import { Context } from '@/app/context';
-
-interface ComponentContext {
-  zipCodes: string[]
-  setZipCodes: (zipCodes: string[]) => void
-}
+import { Context, ContextType } from '@/app/context';
 
 const ZipCodes: FC = () => {
-  const { zipCodes, setZipCodes } =  useContext(Context) as unknown as ComponentContext
+  const { zipCodes, setZipCodes } =  useContext(Context) as unknown as ContextType
 
   interface HandleChangeEvent {
     target: {

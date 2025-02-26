@@ -1,17 +1,11 @@
 import React, { FC, useContext, useEffect, useState } from 'react'
 import { Checkbox, FormControl, InputLabel, ListItemText, MenuItem, OutlinedInput, Select } from '@mui/material';
-import { Context } from '@/app/context';
+import { Context, ContextType } from '@/app/context';
 import { fetchBreeds } from '@/app/api/dogsApi';
 import { SelectChangeEvent } from '@mui/material/Select';
 
-interface ComponentContext {
-  breeds: string[]
-  setBreeds: (breeds: string[]) => void
-  setUser: (user: unknown) => void
-}
-
 const BreedSelect: FC = () => {
-  const { breeds, setBreeds, setUser } =  useContext(Context) as unknown as ComponentContext
+  const { breeds, setBreeds, setUser } =  useContext(Context) as unknown as ContextType
   const [allBreeds, setAllBreeds] = useState<string[]>([])
 
   const ITEM_HEIGHT = 48;

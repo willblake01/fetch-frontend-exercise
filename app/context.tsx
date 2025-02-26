@@ -3,7 +3,7 @@ import { createContext, ReactNode, Dispatch, SetStateAction } from 'react'
 import { useLocalStorage } from './utils/useLocalStorage'
 import type { User } from './types/User'
 
-interface ContextType {
+export interface ContextType {
   ageMax: string | null
   setAgeMax: Dispatch<SetStateAction<string | null>>
   ageMin: string | null
@@ -12,12 +12,12 @@ interface ContextType {
   savedDogs: string[] | null
   setSavedDogs: Dispatch<SetStateAction<string[] | null>>
   setBreeds: Dispatch<SetStateAction<string[] | null>>
-  size: string
-  setSize: Dispatch<SetStateAction<string>>
-  sortDirection: string
-  setSortDirection: Dispatch<SetStateAction<string>>
-  sortField: string
-  setSortField: Dispatch<SetStateAction<string>>
+  size: string | null
+  setSize: Dispatch<SetStateAction<string | null>>
+  sortDirection: string | null
+  setSortDirection: Dispatch<SetStateAction<string | null>>
+  sortField: string | null
+  setSortField: Dispatch<SetStateAction<string | null>>
   zipCodes: string[] | null
   setZipCodes: Dispatch<SetStateAction<string[] | null>>
   user: User | null

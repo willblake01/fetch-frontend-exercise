@@ -1,35 +1,13 @@
 'use client'
-import { ChangeEvent, Dispatch, FC, SetStateAction, useCallback, useContext, useEffect, useState } from 'react'
+import { ChangeEvent, FC, useCallback, useContext, useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { Button } from '@mui/material';
-import { Context } from '../../context';
+import { Context, ContextType } from '../../context';
 import { fetchDogIDs, fetchDogs, matchDog } from '@/app/api/dogsApi';
 import { LoadingSpinner, PaginationRounded } from '@/app/components/utils';
 import { DogCards, Filters } from './components';
 import type { Dog } from '../../types/Dog';
-import type { User } from '../../types/User';
-
-interface PageContext {
-  ageMax: string | null
-  setAgeMax: Dispatch<SetStateAction<string | null>>
-  ageMin: string | null
-  setAgeMin: Dispatch<SetStateAction<string | null>>
-  breeds: string[] | null
-  setBreeds: Dispatch<SetStateAction<string[] | null>>
-  savedDogs: string[] | null
-  setSavedDogs: Dispatch<SetStateAction<string[] | null>>
-  size: string | null
-  setSize: Dispatch<SetStateAction<string | null>>
-  sortDirection: string | null
-  setSortDirection: Dispatch<SetStateAction<string | null>>
-  sortField: string | null
-  setSortField: Dispatch<SetStateAction<string | null>>
-  zipCodes: string[] | null
-  setZipCodes: Dispatch<SetStateAction<string[] | null>>
-  user: User | null
-  setUser: Dispatch<SetStateAction<User | null>>
-}
 
 interface DogIDs {
   next: string
@@ -42,7 +20,7 @@ const Dogs: FC = () => {
   const router = useRouter()
 
   const { ageMax, setAgeMax, ageMin, setAgeMin, breeds, setBreeds, savedDogs, setSavedDogs, size, setSize, sortDirection, setSortDirection, sortField, setSortField, user, setUser, zipCodes, setZipCodes} =  useContext(Context
-  ) as unknown as PageContext
+  ) as unknown as ContextType
 
   const [isLoading, setIsLoading] = useState(false)
   const [dogs, setDogs] = useState<Dog[]>([])
@@ -177,25 +155,30 @@ const Dogs: FC = () => {
         <div className='flex justify-center items-center mb-4'>
           <Button sx={{ background: '#7C1E6F', color: '#ffffff', padding: '0.5rem 1rem', borderRadius: '0.313rem' }} className='submit-button' onClick={() => handleMatchDog()} size='medium' type='button' variant='contained'>Match</Button>
         </div>
-        <LoadingSpinner
-          ariaLabel='dna-loading'
-          ballColors={['var(--loadingSpinnerBallColors)', 'var(--loadingSpinnerBallColors)', 'var(--loadingSpinnerBallColors)']}
-          backgroundColor='var(--loadingSpinnerBackgroundColor)'
-          height='180'
-          visible={isLoading}
-          width='180'
-          wrapperStyle={{ position: 'fixed', top: '50vh', left: '50vw', transform: 'translate(-50%, -50%)', zIndex: '9999' }}
-        />
         <div className='flex-col justify-center'>
           <div className='flex justify-center mb-2'>
             <PaginationRounded count={totalPages} onChange={(e:             ChangeEvent<unknown>, value: number) => handlePageChange(e, value)} page={page} />
           </div>
-          <div className='flex flex-wrap gap-6 justify-center mb-6 p-4'>
-            <DogCards dogs={dogs} />
-          </div>
-          <div className='flex justify-center'>
-            <PaginationRounded count={totalPages} onChange={(e:             ChangeEvent<unknown>, value: number) => handlePageChange(e, value)} page={page} />
-          </div>
+          {
+            isLoading ?
+            <LoadingSpinner
+              ariaLabel='dna-loading'
+              ballColors={['var(--loadingSpinnerBallColors)', 'var(--loadingSpinnerBallColors)', 'var(--loadingSpinnerBallColors)']}
+              backgroundColor='var(--loadingSpinnerBackgroundColor)'
+              height='180'
+              visible={isLoading}
+              width='180'
+              wrapperStyle={{ position: 'fixed', top: '50vh', left: '50vw', transform: 'translate(-50%, -50%)', zIndex: '9999' }}
+            /> :
+            <>
+              <div className='flex flex-wrap gap-6 justify-center mb-6 p-4'>
+                <DogCards dogs={dogs} />
+              </div>
+              <div className='flex justify-center'>
+                <PaginationRounded count={totalPages} onChange={(e:             ChangeEvent<unknown>, value: number) => handlePageChange(e, value)} page={page} />
+              </div>
+            </>
+          }
         </div>
       </div>
     </ThemeProvider>

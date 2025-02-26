@@ -2,9 +2,8 @@
 import { FC, useContext, useEffect } from 'react';
 import { useRouter } from 'next/navigation'
 import { ThemeProvider, createTheme } from '@mui/material/styles';
-import { Context } from './context';
+import { Context, ContextType} from './context';
 import { UserAuthentication } from './components';
-import type { UserContext } from './types/User';
 
 const Home: FC = () => {
   const router = useRouter();
@@ -17,7 +16,7 @@ const Home: FC = () => {
 
   const {
     user
-  } = useContext(Context) as unknown as UserContext
+  } = useContext(Context) as unknown as ContextType
   
   useEffect(() => {
     if (user) {

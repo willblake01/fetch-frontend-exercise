@@ -1,16 +1,11 @@
 import { useContext } from 'react';
 import { FormControl, InputLabel, MenuItem } from '@mui/material';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
-import { Context } from '@/app/context';
-
-interface ComponentContext {
-  size: string | null
-  setSize: (size: string) => void
-}
+import { Context, ContextType } from '@/app/context';
 
 const ResultsPerPage = () => {
   const { size, setSize } =  useContext(Context
-    ) as unknown as ComponentContext
+    ) as unknown as ContextType
 
   const resultsOptions = ['10', '25', '50', '100']
 

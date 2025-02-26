@@ -3,10 +3,9 @@ import { FC, useContext } from 'react';
 import { useRouter } from 'next/navigation'
 import Image from 'next/image';
 import { Button, Typography } from '@mui/material'
-import { Context } from '../context';
+import { Context, ContextType } from '../context';
 import { logout } from '../api/userApi';
 import logo from '@/app/public/images/fetch-logo.png';
-import type { UserContext } from '../types/User';
 
 const AppBar: FC = () => {
   const router = useRouter()
@@ -14,7 +13,7 @@ const AppBar: FC = () => {
   const {
     user,
     setUser
-  } = useContext(Context) as unknown as UserContext
+  } = useContext(Context) as unknown as ContextType
 
   const handleLogout = async () => {
     if (user) {

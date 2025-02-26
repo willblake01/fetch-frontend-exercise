@@ -1,31 +1,18 @@
 'use client'
-import { Dispatch, FC, SetStateAction, useCallback, useContext, useEffect, useState } from 'react'
+import { FC, useCallback, useContext, useEffect, useState } from 'react'
 import { useParams, useRouter } from 'next/navigation'
-import { Context } from '../../context';
+import { Context, ContextType } from '../../context';
 import { fetchDogs } from '@/app/api/dogsApi'
 import { MatchCard } from './components'
 import { LoadingSpinner } from '@/app/components/utils'
 import type { DogMatch } from '@/app/types/Dog'
-import type { User } from '@/app/types/User'
-
-interface PageContext {
-  setAgeMax: Dispatch<SetStateAction<string | null>>
-  setAgeMin: Dispatch<SetStateAction<string | null>>
-  setBreeds: Dispatch<SetStateAction<string[] | null>>
-  setSavedDogs: Dispatch<SetStateAction<string[] | null>>
-  setSize: Dispatch<SetStateAction<string | null>>
-  setSortDirection: Dispatch<SetStateAction<string | null>>
-  setSortField: Dispatch<SetStateAction<string | null>>
-  setUser: Dispatch<SetStateAction<User | null>>
-  setZipCodes: Dispatch<SetStateAction<string[] | null>>
-}
 
 const Page: FC = () => {
   const params = useParams()
   const router = useRouter()
 
   const { setAgeMax, setAgeMin, setBreeds, setSavedDogs, setSize, setSortDirection, setUser, setSortField, setZipCodes} =  useContext(Context
-    ) as unknown as PageContext
+    ) as unknown as ContextType
 
   const { id } = params
 

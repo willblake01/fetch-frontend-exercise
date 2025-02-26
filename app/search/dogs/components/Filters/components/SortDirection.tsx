@@ -1,16 +1,11 @@
 import { useContext } from 'react';
 import { FormControl, InputLabel, MenuItem } from '@mui/material';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
-import { Context } from '@/app/context';
-
-interface ComponentContext {
-  sortDirection: string | null
-  setSortDirection: (size: string) => void
-}
+import { Context, ContextType } from '@/app/context';
 
 const SortDirection = () => {
   const { sortDirection, setSortDirection } =  useContext(Context
-    ) as unknown as ComponentContext
+    ) as unknown as ContextType
 
   const resultsOptions = ['asc', 'desc']
 

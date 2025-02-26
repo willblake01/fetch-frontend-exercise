@@ -1,24 +1,19 @@
-import { Dispatch, SetStateAction, useContext } from 'react';
+import { useContext } from 'react';
 import { Card, CardActionArea, CardContent, CardMedia, Typography } from '@mui/material';
-import { Context } from '@/app/context';
+import { Context, ContextType } from '@/app/context';
 import type { Dog } from '@/app/types/Dog'
 
 interface DogCardProps {
   dog: Dog
 }
 
-interface PageContext {
-  savedDogs: string[]
-  setSavedDogs: Dispatch<SetStateAction<string[]>>
-}
-
 const DogCard = ({ dog }: DogCardProps) => {
   const { savedDogs, setSavedDogs} =  useContext(Context
-    ) as unknown as PageContext
+    ) as unknown as ContextType
 
   const handleSavedDogs = () => {
-    if (!savedDogs.includes(dog.id)) {
-      setSavedDogs([...savedDogs, dog.id])
+    if (!savedDogs?.includes(dog.id)) {
+      setSavedDogs([...(savedDogs || []), dog.id])
     } else {
       const updatedSavedDogs = savedDogs?.filter((id) => id !== dog.id)
       setSavedDogs(updatedSavedDogs)

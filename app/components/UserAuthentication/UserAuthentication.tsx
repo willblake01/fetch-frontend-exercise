@@ -1,17 +1,16 @@
 'use client'
 import { FC, FormEvent, useContext } from 'react';
 import { useRouter } from 'next/navigation'
-import { Context } from '../../context';
+import { Context, ContextType } from '../../context';
 import { login } from '../../api/userApi';
 import { AuthenticationCard } from './components';
-import type { UserContext } from '../../types/User';
 
 const UserAuthentication: FC = () => {
   const router = useRouter();
 
   const {
     setUser
-  } = useContext(Context) as unknown as UserContext
+  } = useContext(Context) as unknown as ContextType
 
   const handleLogin = async () => {
     const nameInput = document.getElementById('name-input') as HTMLInputElement;
