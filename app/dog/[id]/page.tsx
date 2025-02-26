@@ -49,7 +49,9 @@ const Page: FC = () => {
 
   return (
     <div className='flex items-center justify-center h-full'>
-      <LoadingSpinner
+      {
+        isLoading ?
+        <LoadingSpinner
           ariaLabel='dna-loading'
           ballColors={['var(--loadingSpinnerBallColors)', 'var(--loadingSpinnerBallColors)', 'var(--loadingSpinnerBallColors)']}
           backgroundColor='var(--loadingSpinnerBackgroundColor)'
@@ -57,8 +59,8 @@ const Page: FC = () => {
           visible={isLoading}
           width='180'
           wrapperStyle={{ position: 'fixed', top: '50vh', left: '50vw', transform: 'translate(-50%, -50%)', zIndex: '9999' }}
-        />
-      {dog && <MatchCard match={dog} />}
+        /> : dog && <MatchCard match={dog} />
+      }
     </div>
   )
 }
