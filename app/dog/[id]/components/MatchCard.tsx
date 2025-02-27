@@ -1,5 +1,7 @@
+import { useEffect } from 'react'
 import { Card, CardContent, CardMedia, Typography } from '@mui/material'
 import { DogMatch } from '@/app/types/Dog'
+import { Alert } from '@/app/components/utils'
 
 interface DogMatchProps {
   match: DogMatch
@@ -9,6 +11,14 @@ const MatchCard = ({ match }: DogMatchProps) => {
   const { age, breed, img, name, zip_code  } = match
 
   const dogAgeText = (age) > 1 ? 'years' : 'year'
+
+  useEffect(() => {
+    if (match) {
+      Alert({
+        title: 'Match Found!',
+      })
+    }
+  }, [match])
 
   return (
     <Card sx={{borderRadius: '0.625rem', boxShadow: 3, maxWidth: 445 }}>

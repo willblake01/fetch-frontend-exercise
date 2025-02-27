@@ -37,20 +37,23 @@ const Page: FC = () => {
         if (response) {
           setDog(response[0])
         }
-      }).catch(error => {
-      const { message } = error
-      if (message === 'Unauthorized') {
-        resetAllContext()
-        router.push('/')
-      }
-    }).finally(() => setIsLoading(false));
+      })
+      .catch(error => {
+        const { message } = error
+        
+        if (message === 'Unauthorized') {
+          resetAllContext()
+          router.push('/')
+        }
+      }).finally(() => setIsLoading(false));
     }
   }, [id, resetAllContext, router])
 
   return (
     <div className='flex items-center justify-center h-full'>
       {
-        isLoading ?
+        isLoading
+          ?
         <LoadingSpinner
           ariaLabel='dna-loading'
           ballColors={['var(--loadingSpinnerBallColors)', 'var(--loadingSpinnerBallColors)', 'var(--loadingSpinnerBallColors)']}
@@ -59,7 +62,9 @@ const Page: FC = () => {
           visible={isLoading}
           width='180'
           wrapperStyle={{ position: 'fixed', top: '50vh', left: '50vw', transform: 'translate(-50%, -50%)', zIndex: '9999' }}
-        /> : dog && <MatchCard match={dog} />
+        />
+        :
+        dog && <MatchCard match={dog} />
       }
     </div>
   )
