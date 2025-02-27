@@ -84,7 +84,7 @@ const Dogs: FC = () => {
         resetAllContext()
         router.push('/')
       }
-    }).finally(() => setIsLoading(false))
+    })
   }, [ageMax, ageMin, breeds, from, resetAllContext, router, size, setDogIDs, sortDirection, sortField, zipCodes])
 
   const handleFetchDogs = useCallback(async () => {
@@ -144,7 +144,7 @@ const Dogs: FC = () => {
 
   useEffect(() => {
     handleFetchDogs();
-  }, [ageMax, ageMin, handleFetchDogs, resultIds, setDogs, , size, user, setUser])
+  }, [handleFetchDogs, resultIds, setDogs])
 
   return (
     <ThemeProvider theme={theme}>
