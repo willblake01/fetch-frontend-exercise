@@ -26,7 +26,7 @@ const Home: FC = () => {
 
   return (
     <ThemeProvider theme={theme}>
-      <div className='flex items-center justify-center size-full'>
+      <div className='absolute flex justify-center top-60 w-[100vw]'>
         <UserAuthentication />
       </div>
     </ThemeProvider>
