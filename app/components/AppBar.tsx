@@ -2,12 +2,12 @@
 import { FC, useContext } from 'react';
 import { useRouter } from 'next/navigation'
 import Image from 'next/image';
-import { Button, Typography } from '@mui/material'
+import { AppBar, Box, Button, Toolbar, Typography } from '@mui/material'
 import { Context, ContextType } from '../context';
 import { logout } from '../api/userApi';
 import logo from '@/app/public/images/fetch-logo.png';
 
-const AppBar: FC = () => {
+const Appbar: FC = () => {
   const router = useRouter()
 
   const {
@@ -22,32 +22,25 @@ const AppBar: FC = () => {
   }
 
   return (
-    <div className='flex items-center justify-center m-0 p-4 app-bar'>
-      <Image alt='logo' className='logo' onClick={() => router.push('/')} priority src={logo} style={{ left: 18, position: 'absolute' }} />
-      <Typography
-        component={'h2'}
-        dangerouslySetInnerHTML={{ __html: 'Rescue' }}
-        fontFamily='FingerPaint'
-        variant={'h1'}
-      />
-      {user ? <Button
-        component='a'
-        href='/'
-        onClick={() => handleLogout()}
-        style={{
-          background: 'none',
-          color: '#FFFFFF',
-          height: 'max-content',
-          margin: 0,
-          position: 'absolute',
-          right: 18,
-          width: 'max-content',
-        }}
-      >
-        Logout
-      </Button> : null}
-    </div>
+    <Box sx={{ flexGrow: 1 }}>
+      <AppBar position='static' sx={{ bgcolor: '#7C1E6F', display: 'flex', flexDirection: 'row', flexGrow: 1, padding: '1.25rem' }}>
+        <Image alt='logo' className='logo' onClick={() => router.push('/')} priority src={logo} style={{ position: 'absolute' }} />
+        <div className='flex items-center justify-center w-full'>
+          <Typography
+            component={'h2'}
+            dangerouslySetInnerHTML={{ __html: 'Rescue' }}
+            fontFamily='FingerPaint'
+            variant={'h1'}
+          />
+        </div>
+        <Toolbar>
+          {
+            user ? <Button color='inherit' onClick={() => handleLogout()} sx={{ position: 'absolute', right: '0' }}>Logout</Button> : null
+          }
+        </Toolbar>
+      </AppBar>
+    </Box>
   );
 }
 
-export default AppBar
+export default Appbar
