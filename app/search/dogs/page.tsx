@@ -85,27 +85,23 @@ const Dogs: FC = () => {
         router.push('/')
       }
     }).finally(() => setIsLoading(false))
-  }, [ageMax, ageMin, breeds, from, resetAllContext, router, size, sortDirection, sortField, zipCodes])
+  }, [ageMax, ageMin, breeds, from, resetAllContext, router, size, setDogIDs, sortDirection, sortField, zipCodes])
 
-  interface FetchDogsParams {
-    resultIds: string[];
-  }
-
-  const handleFetchDogs = useCallback(async (resultIds: FetchDogsParams) => {
+  const handleFetchDogs = useCallback(async () => {
     setIsLoading(true);
 
-    await fetchDogs(resultIds).then((res: Dog[]) => {
+    await fetchDogs({ resultIds }).then(res => {
       if (res) {
-        setDogs(res as Dog[]);
+        setDogs(res as Dog[])
       }
-    }).catch((error: { message: string }) => {
-      const { message } = error;
+    }).catch(error => {
+      const { message } = error
       if (message === 'Unauthorized') {
-        resetAllContext();
-        router.push('/');
+        resetAllContext()
+        router.push('/')
       }
     }).finally(() => setIsLoading(false));
-  }, [resetAllContext, router, setDogs]);
+  }, [resetAllContext, router, resultIds, setDogs])
 
   const handleMatchDog = () => {
     matchDog({ savedDogs }).then(res => {
@@ -143,10 +139,12 @@ const Dogs: FC = () => {
   }, [router, user])
 
   useEffect(() => {
-    handleFetchDogIDs().then(() => {
-      handleFetchDogs({ resultIds })
-    })
-  }, [ageMax, ageMin, breeds, from, handleFetchDogIDs, handleFetchDogs, resultIds, size, setUser, zipCodes])
+    handleFetchDogIDs()
+  }, [ageMax, ageMin, breeds, from, handleFetchDogIDs, setDogIDs, size, setUser, zipCodes])
+
+  useEffect(() => {
+    handleFetchDogs();
+  }, [ageMax, ageMin, handleFetchDogs, resultIds, setDogs, , size, user, setUser])
 
   return (
     <ThemeProvider theme={theme}>
