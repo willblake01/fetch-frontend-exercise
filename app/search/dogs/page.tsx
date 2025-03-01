@@ -48,17 +48,6 @@ const Dogs: FC = () => {
     setUser(null)
     setZipCodes(null)
   }, [setAgeMax, setAgeMin, setBreeds, setSavedDogs, setSize, setSortDirection, setSortField, setUser, setZipCodes])
-  
-  const resetDogContext = useCallback(() => {
-    setAgeMax(null)
-    setAgeMin(null)
-    setBreeds([])
-    setSavedDogs([])
-    setSize('25')
-    setSortDirection('asc')
-    setSortField('breed')
-    setZipCodes(null)
-  }, [setAgeMax, setAgeMin, setBreeds, setSavedDogs, setSize, setSortDirection, setSortField, setZipCodes])
 
   const handleFetchDogIDs = useCallback(async () => {
     setIsLoading(true)
@@ -81,8 +70,8 @@ const Dogs: FC = () => {
     }).catch(error => {
       const { message } = error
       if (message === 'Unauthorized') {
-        resetAllContext()
         router.push('/')
+        resetAllContext()
       }
     })
   }, [ageMax, ageMin, breeds, from, resetAllContext, router, size, setDogIDs, sortDirection, sortField, zipCodes])
@@ -97,8 +86,8 @@ const Dogs: FC = () => {
     }).catch(error => {
       const { message } = error
       if (message === 'Unauthorized') {
-        resetAllContext()
         router.push('/')
+        resetAllContext()
       }
     }).finally(() => setIsLoading(false));
   }, [resetAllContext, router, resultIds, setDogs])
@@ -106,7 +95,7 @@ const Dogs: FC = () => {
   const handleMatchDog = () => {
     matchDog({ savedDogs }).then(res => {
       if (res) {
-        resetDogContext()
+        resetAllContext()
 
         const match = res.match
         
