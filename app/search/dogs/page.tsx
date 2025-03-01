@@ -7,6 +7,7 @@ import { Context, ContextType } from '../../context'
 import { fetchDogIDs, fetchDogs, matchDog } from '@/app/api/dogsApi'
 import { LoadingSpinner, PaginationRounded } from '@/app/components/utils'
 import { DogCards, Filters } from './components'
+import { Alert } from '@/app/components/utils'
 import type { Dog } from '../../types/Dog'
 
 interface DogIDs {
@@ -109,6 +110,9 @@ const Dogs: FC = () => {
       if (res) {
         const match = res.match
         router.push(`/dog/${match}`)
+        Alert({
+          title: 'Match Found!',
+        })
         resetDogContext()
       }
     }

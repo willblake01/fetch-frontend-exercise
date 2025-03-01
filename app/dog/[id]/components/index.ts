@@ -1,1 +1,1 @@
-export { default as MatchCard } from './MatchCard'
+export { default as DogCard } from './DogCard'

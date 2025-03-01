@@ -3,7 +3,7 @@ import { FC, useCallback, useContext, useEffect, useState } from 'react'
 import { useParams, useRouter } from 'next/navigation'
 import { Context, ContextType } from '../../context'
 import { fetchDogs } from '@/app/api/dogsApi'
-import { MatchCard } from './components'
+import { DogCard } from './components'
 import { LoadingSpinner } from '@/app/components/utils'
 import type { DogMatch } from '@/app/types/Dog'
 
@@ -65,7 +65,7 @@ const Page: FC = () => {
           wrapperStyle={{ position: 'fixed', top: '50vh', left: '50vw', transform: 'translate(-50%, -50%)', zIndex: '9999' }}
         />
         :
-        dog && <div className='mb-6'><MatchCard match={dog} /></div>
+        dog && <div className='mb-6'><DogCard dog={dog} /></div>
       }
     </div>
   )
