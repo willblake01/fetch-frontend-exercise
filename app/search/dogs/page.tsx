@@ -113,10 +113,11 @@ const Dogs: FC = () => {
         Alert({
           title: 'Match Found!',
         })
-        resetDogContext()
       }
     }
-    ).catch(error => {
+    )
+    .then(() => resetDogContext())
+    .catch(error => {
       const { message } = error
       if (message === 'Unauthorized') {
         router.push('/')
