@@ -33,6 +33,7 @@ const Page: FC = () => {
 
   useEffect(() => {
     if (id) {
+      setIsLoading(true)
       fetchDogs({ resultIds: Array.isArray(id) ? id : [id] }).then(response => {
         if (response) {
           setDog(response[0])

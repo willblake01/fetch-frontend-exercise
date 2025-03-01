@@ -48,6 +48,17 @@ const Dogs: FC = () => {
     setUser(null)
     setZipCodes(null)
   }, [setAgeMax, setAgeMin, setBreeds, setSavedDogs, setSize, setSortDirection, setSortField, setUser, setZipCodes])
+  
+  const resetDogContext = useCallback(() => {
+    setAgeMax(null)
+    setAgeMin(null)
+    setBreeds([])
+    setSavedDogs([])
+    setSize('25')
+    setSortDirection('asc')
+    setSortField('breed')
+    setZipCodes(null)
+  }, [setAgeMax, setAgeMin, setBreeds, setSavedDogs, setSize, setSortDirection, setSortField, setZipCodes])
 
   const handleFetchDogIDs = useCallback(async () => {
     setIsLoading(true)
@@ -95,7 +106,7 @@ const Dogs: FC = () => {
   const handleMatchDog = () => {
     matchDog({ savedDogs }).then(res => {
       if (res) {
-        resetAllContext()
+        resetDogContext()
 
         const match = res.match
         
