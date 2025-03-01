@@ -116,8 +116,8 @@ const Dogs: FC = () => {
     ).catch(error => {
       const { message } = error
       if (message === 'Unauthorized') {
-        resetAllContext()
         router.push('/')
+        resetAllContext()
       }
     })
   }
