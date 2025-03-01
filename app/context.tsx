@@ -8,18 +8,18 @@ export interface ContextType {
   setAgeMax: Dispatch<SetStateAction<string | null>>
   ageMin: string | null
   setAgeMin: Dispatch<SetStateAction<string | null>>
-  breeds: string[] | null
-  savedDogs: string[] | null
-  setSavedDogs: Dispatch<SetStateAction<string[] | null>>
-  setBreeds: Dispatch<SetStateAction<string[] | null>>
-  size: string | null
-  setSize: Dispatch<SetStateAction<string | null>>
-  sortDirection: string | null
-  setSortDirection: Dispatch<SetStateAction<string | null>>
-  sortField: string | null
-  setSortField: Dispatch<SetStateAction<string | null>>
-  zipCodes: string[] | null
-  setZipCodes: Dispatch<SetStateAction<string[] | null>>
+  breeds: string[]
+  setBreeds: Dispatch<SetStateAction<string[]>>
+  savedDogs: string[]
+  setSavedDogs: Dispatch<SetStateAction<string[]>>
+  size: string
+  setSize: Dispatch<SetStateAction<string>>
+  sortDirection: string
+  setSortDirection: Dispatch<SetStateAction<string>>
+  sortField: string
+  setSortField: Dispatch<SetStateAction<string>>
+  zipCodes: string[]
+  setZipCodes: Dispatch<SetStateAction<string[]>>
   user: User | null
   setUser: Dispatch<SetStateAction<User | null>>
 }

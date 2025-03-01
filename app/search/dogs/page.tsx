@@ -19,7 +19,7 @@ interface DogIDs {
 const Dogs: FC = () => {
   const router = useRouter()
 
-  const { ageMax, setAgeMax, ageMin, setAgeMin, breeds, setBreeds, savedDogs, setSavedDogs, size, setSize, sortDirection, setSortDirection, sortField, setSortField, user, setUser, zipCodes, setZipCodes} =  useContext(Context
+  const { ageMax, setAgeMax, ageMin, setAgeMin, breeds, setBreeds, savedDogs, setSavedDogs, size, setSize, sortDirection, setSortDirection, sortField, setSortField, setUser, zipCodes, setZipCodes} =  useContext(Context
   ) as unknown as ContextType
 
   const [isLoading, setIsLoading] = useState(false)
@@ -40,13 +40,13 @@ const Dogs: FC = () => {
   const resetAllContext = useCallback(() => {
     setAgeMax(null)
     setAgeMin(null)
-    setBreeds(null)
-    setSavedDogs(null)
-    setSize(null)
-    setSortDirection(null)
-    setSortField(null)
+    setBreeds([])
+    setSavedDogs([])
+    setSize('25')
+    setSortDirection('asc')
+    setSortField('breed')
     setUser(null)
-    setZipCodes(null)
+    setZipCodes([])
   }, [setAgeMax, setAgeMin, setBreeds, setSavedDogs, setSize, setSortDirection, setSortField, setUser, setZipCodes])
   
   const resetDogContext = useCallback(() => {
@@ -57,7 +57,7 @@ const Dogs: FC = () => {
     setSize('25')
     setSortDirection('asc')
     setSortField('breed')
-    setZipCodes(null)
+    setZipCodes([])
   }, [setAgeMax, setAgeMin, setBreeds, setSavedDogs, setSize, setSortDirection, setSortField, setZipCodes])
 
   const handleFetchDogIDs = useCallback(async () => {
@@ -103,14 +103,13 @@ const Dogs: FC = () => {
     }).finally(() => setIsLoading(false));
   }, [resetAllContext, router, resultIds, setDogs])
 
-  const handleMatchDog = () => {
-    matchDog({ savedDogs }).then(res => {
+  const handleMatchDog = async () => {
+    setIsLoading(true)
+    await matchDog({ savedDogs }).then(res => {
       if (res) {
-        resetDogContext()
-
         const match = res.match
-        
         router.push(`/dog/${match}`)
+        resetDogContext()
       }
     }
     ).catch(error => {
@@ -119,7 +118,7 @@ const Dogs: FC = () => {
         router.push('/')
         resetAllContext()
       }
-    })
+    }).finally(() => setIsLoading(false))
   }
 
   const handlePageChange = (event: ChangeEvent<unknown>, value: number) => {
@@ -133,18 +132,12 @@ const Dogs: FC = () => {
   }
 
   useEffect(() => {
-    if (!user) {
-      router.push('/')
-    }
-  }, [router, user])
-
-  useEffect(() => {
     handleFetchDogIDs()
-  }, [ageMax, ageMin, breeds, from, handleFetchDogIDs, setDogIDs, size, setUser, zipCodes])
+  }, [handleFetchDogIDs])
 
   useEffect(() => {
     handleFetchDogs();
-  }, [handleFetchDogs, resultIds, setDogs])
+  }, [handleFetchDogs])
 
   return (
     <ThemeProvider theme={theme}>

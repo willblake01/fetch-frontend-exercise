@@ -60,6 +60,8 @@ export const fetchDogIDs = async ({ params }: fetchDogIDsParams) => {
   if (response.ok) {
     const json = await response.json()
     return json
+  } else if (response.status === 401) {
+    throw new Error('Unauthorized')
   } else {
     throw new Error('Failed to fetch Dog IDs')
   }
@@ -83,8 +85,9 @@ export const fetchDogs = async ({ resultIds }: DogIDs) => {
 
   if (response.ok) {
     const json = await response.json()
-
     return json
+  } else if (response.status === 401) {
+    throw new Error('Unauthorized')
   } else {
     throw new Error('Failed to fetch dogs')
   }
@@ -108,8 +111,9 @@ export const matchDog = async ({ savedDogs }: SavedDogs) => {
 
   if (response.ok) {
     const json = await response.json()
-    
     return json
+  } else if (response.status === 401) {
+    throw new Error('Unauthorized')
   } else {
     throw new Error('Failed to match dogs')
   }

@@ -32,7 +32,7 @@ const Appbar: FC = () => {
     setSortDirection('asc')
     setSortField('breed')
     setUser(null)
-    setZipCodes(null)
+    setZipCodes([])
   }, [setAgeMax, setAgeMin, setBreeds, setSavedDogs, setSize, setSortDirection, setSortField, setUser, setZipCodes])
 
   const handleLogout = async () => {
@@ -44,7 +44,13 @@ const Appbar: FC = () => {
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position='static' sx={{ bgcolor: '#7C1E6F', display: 'flex', flexDirection: 'row', flexGrow: 1, padding: '1.25rem' }}>
-        <Image alt='logo' className='logo' onClick={() => router.push('/')} priority src={logo} style={{ position: 'absolute' }} />
+        <Image alt='logo' className='logo' onClick={() => {
+          if (!user) {
+            router.push('/')
+          } else {
+            router.push('/search/dogs')
+          }
+          }} priority src={logo} style={{ position: 'absolute' }} />
         <div className='flex items-center justify-center w-full'>
           <Typography
             component={'h2'}

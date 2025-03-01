@@ -28,7 +28,7 @@ const Page: FC = () => {
       setSortDirection('asc')
       setSortField('breed')
       setUser(null)
-      setZipCodes(null)
+      setZipCodes([])
     }, [setAgeMax, setAgeMin, setBreeds, setSavedDogs, setSize, setSortDirection, setSortField, setUser, setZipCodes])
 
   useEffect(() => {
