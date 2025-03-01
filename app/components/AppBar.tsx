@@ -1,5 +1,5 @@
 'use client'
-import { FC, useContext } from 'react';
+import { FC, useCallback, useContext } from 'react';
 import { useRouter } from 'next/navigation'
 import Image from 'next/image';
 import { AppBar, Box, Button, Toolbar, Typography } from '@mui/material'
@@ -11,13 +11,33 @@ const Appbar: FC = () => {
   const router = useRouter()
 
   const {
+    setAgeMax,
+    setAgeMin,
+    setBreeds,
+    setSavedDogs,
+    setSize,
+    setSortDirection,
+    setSortField,
+    setZipCodes,
     user,
     setUser
   } = useContext(Context) as unknown as ContextType
 
+  const resetAllContext = useCallback(() => {
+    setAgeMax(null)
+    setAgeMin(null)
+    setBreeds([])
+    setSavedDogs([])
+    setSize('25')
+    setSortDirection('asc')
+    setSortField('breed')
+    setUser(null)
+    setZipCodes(null)
+  }, [setAgeMax, setAgeMin, setBreeds, setSavedDogs, setSize, setSortDirection, setSortField, setUser, setZipCodes])
+
   const handleLogout = async () => {
     if (user) {
-      Promise.all([await logout(user)]).then(() => setUser(null)).then(() => router.push('/')).catch(error => console.error(error));
+      Promise.all([await logout(user)]).then(() => resetAllContext()).then(() => router.push('/')).catch(error => console.error(error));
     }
   }
 
