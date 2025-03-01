@@ -64,5 +64,5 @@ export const ContextProvider = ({ children }: { children: ReactNode }) => {
     <Context.Provider value={context}>
       {children}
     </Context.Provider>
-  );
+  )
 }

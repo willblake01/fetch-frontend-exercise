@@ -1,9 +1,9 @@
-'use client';
-import { Card, CardContent } from '@mui/material';
+'use client'
+import { Card, CardContent } from '@mui/material'
 
 interface ErrorProps {
-  error: Error;
-  reset: () => void;
+  error: Error
+  reset: () => void
 }
 
 const Error = ({ error, reset }: ErrorProps) => {
@@ -17,7 +17,7 @@ const Error = ({ error, reset }: ErrorProps) => {
         </CardContent>
       </Card>
     </div>
-  );
+  )
 }
 
-export default Error;
+export default Error

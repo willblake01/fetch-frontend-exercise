@@ -1,7 +1,7 @@
-import { useContext } from 'react';
-import { FormControl, InputLabel, MenuItem } from '@mui/material';
-import Select, { SelectChangeEvent } from '@mui/material/Select';
-import { Context, ContextType } from '@/app/context';
+import { useContext } from 'react'
+import { FormControl, InputLabel, MenuItem } from '@mui/material'
+import Select, { SelectChangeEvent } from '@mui/material/Select'
+import { Context, ContextType } from '@/app/context'
 
 const ResultsPerPage = () => {
   const { size, setSize } =  useContext(Context
@@ -10,8 +10,8 @@ const ResultsPerPage = () => {
   const resultsOptions = ['10', '25', '50', '100']
 
   const handleChange = (event: SelectChangeEvent) => {
-    setSize(event.target.value as string);
-  };
+    setSize(event.target.value as string)
+  }
 
   return (
     <FormControl fullWidth>
@@ -30,7 +30,7 @@ const ResultsPerPage = () => {
         }
       </Select>
     </FormControl>
-  );
+  )
 }
 
 export default ResultsPerPage

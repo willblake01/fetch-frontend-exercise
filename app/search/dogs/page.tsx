@@ -1,13 +1,13 @@
 'use client'
 import { ChangeEvent, FC, useCallback, useContext, useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { ThemeProvider, createTheme } from '@mui/material/styles';
-import { Button } from '@mui/material';
-import { Context, ContextType } from '../../context';
-import { fetchDogIDs, fetchDogs, matchDog } from '@/app/api/dogsApi';
-import { LoadingSpinner, PaginationRounded } from '@/app/components/utils';
-import { DogCards, Filters } from './components';
-import type { Dog } from '../../types/Dog';
+import { ThemeProvider, createTheme } from '@mui/material/styles'
+import { Button } from '@mui/material'
+import { Context, ContextType } from '../../context'
+import { fetchDogIDs, fetchDogs, matchDog } from '@/app/api/dogsApi'
+import { LoadingSpinner, PaginationRounded } from '@/app/components/utils'
+import { DogCards, Filters } from './components'
+import type { Dog } from '../../types/Dog'
 
 interface DogIDs {
   next: string
@@ -33,7 +33,7 @@ const Dogs: FC = () => {
     colorSchemes: {
       dark: true,
     },
-  });
+  })
 
   const totalPages = Math.ceil(total / (size ? Number(size) : 25))
 
@@ -66,13 +66,13 @@ const Dogs: FC = () => {
     const params = {
       ageMax: ageMax || null,
       ageMin: ageMin || null,
-      breeds: breeds || null,
-      from: from || null,
-      size: size || null,
-      sortDirection: sortDirection || null,
-      sortField: sortField || null,
-      zipCodes: zipCodes || null,
-    };
+      breeds: breeds,
+      from: from,
+      size: size,
+      sortDirection: sortDirection,
+      sortField: sortField,
+      zipCodes: zipCodes,
+    }
 
     await fetchDogIDs({ params }).then(res => {
       if (res) {
@@ -88,7 +88,7 @@ const Dogs: FC = () => {
   }, [ageMax, ageMin, breeds, from, resetAllContext, router, size, setDogIDs, sortDirection, sortField, zipCodes])
 
   const handleFetchDogs = useCallback(async () => {
-    setIsLoading(true);
+    setIsLoading(true)
 
     await fetchDogs({ resultIds }).then(res => {
       if (res) {
@@ -100,7 +100,7 @@ const Dogs: FC = () => {
         router.push('/')
         resetAllContext()
       }
-    }).finally(() => setIsLoading(false));
+    }).finally(() => setIsLoading(false))
   }, [resetAllContext, router, resultIds, setDogs])
 
   const handleMatchDog = async () => {
@@ -136,7 +136,7 @@ const Dogs: FC = () => {
   }, [handleFetchDogIDs])
 
   useEffect(() => {
-    handleFetchDogs();
+    handleFetchDogs()
   }, [handleFetchDogs])
 
   return (

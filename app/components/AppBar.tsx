@@ -1,11 +1,11 @@
 'use client'
-import { FC, useCallback, useContext } from 'react';
+import { FC, useCallback, useContext } from 'react'
 import { useRouter } from 'next/navigation'
-import Image from 'next/image';
+import Image from 'next/image'
 import { AppBar, Box, Button, Toolbar, Typography } from '@mui/material'
-import { Context, ContextType } from '../context';
-import { logout } from '../api/userApi';
-import logo from '@/app/public/images/fetch-logo.png';
+import { Context, ContextType } from '../context'
+import { logout } from '../api/userApi'
+import logo from '@/app/public/images/fetch-logo.png'
 
 const Appbar: FC = () => {
   const router = useRouter()
@@ -37,7 +37,7 @@ const Appbar: FC = () => {
 
   const handleLogout = async () => {
     if (user) {
-      Promise.all([await logout(user)]).then(() => resetAllContext()).then(() => router.push('/')).catch(error => console.error(error));
+      Promise.all([await logout(user)]).then(() => resetAllContext()).then(() => router.push('/')).catch(error => console.error(error))
     }
   }
 
@@ -50,7 +50,7 @@ const Appbar: FC = () => {
           } else {
             router.push('/search/dogs')
           }
-          }} priority src={logo} style={{ position: 'absolute' }} />
+        }} src={logo} style={{ position: 'absolute' }} />
         <div className='flex items-center justify-center w-full'>
           <Typography
             component={'h2'}
@@ -66,7 +66,7 @@ const Appbar: FC = () => {
         </Toolbar>
       </AppBar>
     </Box>
-  );
+  )
 }
 
 export default Appbar

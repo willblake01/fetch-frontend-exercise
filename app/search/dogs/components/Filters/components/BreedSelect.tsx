@@ -1,15 +1,15 @@
 import React, { FC, useContext, useEffect, useState } from 'react'
-import { Checkbox, FormControl, InputLabel, ListItemText, MenuItem, OutlinedInput, Select } from '@mui/material';
-import { Context, ContextType } from '@/app/context';
-import { fetchBreeds } from '@/app/api/dogsApi';
-import { SelectChangeEvent } from '@mui/material/Select';
+import { Checkbox, FormControl, InputLabel, ListItemText, MenuItem, OutlinedInput, Select } from '@mui/material'
+import { Context, ContextType } from '@/app/context'
+import { fetchBreeds } from '@/app/api/dogsApi'
+import { SelectChangeEvent } from '@mui/material/Select'
 
 const BreedSelect: FC = () => {
   const { breeds, setBreeds, setUser } =  useContext(Context) as unknown as ContextType
   const [allBreeds, setAllBreeds] = useState<string[]>([])
 
-  const ITEM_HEIGHT = 48;
-  const ITEM_PADDING_TOP = 8;
+  const ITEM_HEIGHT = 48
+  const ITEM_PADDING_TOP = 8
 
   const MenuProps = {
   PaperProps: {
@@ -18,7 +18,7 @@ const BreedSelect: FC = () => {
       width: 250,
     },
   },
-};
+}
 
   const handleChange = (event: SelectChangeEvent<typeof breeds>) => {
     const {

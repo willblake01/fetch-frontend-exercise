@@ -1,17 +1,17 @@
-import { useContext } from 'react';
-import { Context, ContextType } from '@/app/context';
-import { FormControl, InputLabel, MenuItem, Select } from '@mui/material';
-import { SelectChangeEvent } from '@mui/material/Select';
+import { useContext } from 'react'
+import { Context, ContextType } from '@/app/context'
+import { FormControl, InputLabel, MenuItem, Select } from '@mui/material'
+import { SelectChangeEvent } from '@mui/material/Select'
 
 const AgeMaxSelect = () => {
   const { ageMax, setAgeMax } =  useContext(Context
       ) as unknown as ContextType
 
-  const ageRange = Array.from({ length: 35 }, (_, i) => i + 1);
+  const ageRange = Array.from({ length: 35 }, (_, i) => i + 1)
 
   const handleChange = (event: SelectChangeEvent) => {
-    setAgeMax(event.target.value as string);
-  };
+    setAgeMax(event.target.value as string)
+  }
 
   return (
     <FormControl fullWidth>
@@ -33,7 +33,7 @@ const AgeMaxSelect = () => {
         }
       </Select>
     </FormControl>
-  );
+  )
 }
 
 export default AgeMaxSelect

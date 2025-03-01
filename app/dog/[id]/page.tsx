@@ -1,7 +1,7 @@
 'use client'
 import { FC, useCallback, useContext, useEffect, useState } from 'react'
 import { useParams, useRouter } from 'next/navigation'
-import { Context, ContextType } from '../../context';
+import { Context, ContextType } from '../../context'
 import { fetchDogs } from '@/app/api/dogsApi'
 import { MatchCard } from './components'
 import { LoadingSpinner } from '@/app/components/utils'
@@ -46,7 +46,7 @@ const Page: FC = () => {
           resetAllContext()
           router.push('/')
         }
-      }).finally(() => setIsLoading(false));
+      }).finally(() => setIsLoading(false))
     }
   }, [id, resetAllContext, router])
 

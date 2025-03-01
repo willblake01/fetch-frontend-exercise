@@ -1,6 +1,6 @@
 import { FC, useContext } from 'react'
-import { TextField } from '@mui/material';
-import { Context, ContextType } from '@/app/context';
+import { TextField } from '@mui/material'
+import { Context, ContextType } from '@/app/context'
 
 const ZipCodes: FC = () => {
   const { zipCodes, setZipCodes } =  useContext(Context) as unknown as ContextType
@@ -18,8 +18,8 @@ const ZipCodes: FC = () => {
 
     setZipCodes(
       typeof value === 'string' && value.length ? value.split(',') : [],
-    );
-  };
+    )
+  }
 
   return (
     <TextField fullWidth id='zipCodes' label='Zip Codes' onChange={handleChange} value={zipCodes || ''} variant='outlined' />

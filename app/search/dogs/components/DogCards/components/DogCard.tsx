@@ -1,6 +1,6 @@
-import { useContext } from 'react';
-import { Card, CardActionArea, CardContent, CardMedia, Typography } from '@mui/material';
-import { Context, ContextType } from '@/app/context';
+import { useContext } from 'react'
+import { Card, CardActionArea, CardContent, CardMedia, Typography } from '@mui/material'
+import { Context, ContextType } from '@/app/context'
 import type { Dog } from '@/app/types/Dog'
 
 interface DogCardProps {

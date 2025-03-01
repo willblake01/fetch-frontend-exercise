@@ -1,4 +1,4 @@
-import * as React from 'react';
+import * as React from 'react'
 import { DogCard } from './components'
 import type { Dog } from '@/app/types/Dog'
 
@@ -7,7 +7,7 @@ interface DogCardsProps {
 }
 
 const DogCards = ({ dogs }: DogCardsProps) => {
-  return dogs.map(dog => <DogCard key={dog.id} dog={dog} />);
+  return dogs.map(dog => <DogCard key={dog.id} dog={dog} />)
 }
 
 export default DogCards

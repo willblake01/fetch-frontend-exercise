@@ -25,7 +25,7 @@ const LoadingSpinner: FC<LoadingSpinnerProps> = ({ ariaLabel, backgroundColor, b
       backgroundColor={backgroundColor}
       visible={visible}
     />
-  );
+  )
 }
 
-export default LoadingSpinner;
+export default LoadingSpinner

@@ -1,7 +1,7 @@
-import { useContext } from 'react';
-import { FormControl, InputLabel, MenuItem } from '@mui/material';
-import Select, { SelectChangeEvent } from '@mui/material/Select';
-import { Context, ContextType } from '@/app/context';
+import { useContext } from 'react'
+import { FormControl, InputLabel, MenuItem } from '@mui/material'
+import Select, { SelectChangeEvent } from '@mui/material/Select'
+import { Context, ContextType } from '@/app/context'
 
 const SortDirection = () => {
   const { sortDirection, setSortDirection } =  useContext(Context
@@ -12,8 +12,8 @@ const SortDirection = () => {
   const handleChange = (event: SelectChangeEvent) => {
     const value = event.target.value as string
 
-    setSortDirection(value);
-  };
+    setSortDirection(value)
+  }
 
   return (
     <FormControl fullWidth>
@@ -32,7 +32,7 @@ const SortDirection = () => {
         }
       </Select>
     </FormControl>
-  );
+  )
 }
 
 export default SortDirection

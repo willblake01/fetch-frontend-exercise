@@ -1,5 +1,5 @@
-import { ChangeEvent } from 'react';
-import { Box, Button, TextField, Card, CardContent, CardHeader } from '@mui/material';
+import { ChangeEvent } from 'react'
+import { Box, Button, TextField, Card, CardContent, CardHeader } from '@mui/material'
 
 interface AuthenticationCardProps {
   onSubmit: (event: ChangeEvent<HTMLFormElement>) => void
@@ -26,4 +26,4 @@ const AuthenticationCard = ({ onSubmit }: AuthenticationCardProps) => {
   )
 }
 
-export default AuthenticationCard;
+export default AuthenticationCard

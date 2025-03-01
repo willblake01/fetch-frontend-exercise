@@ -1,18 +1,18 @@
 'use client'
-import { FC, useContext, useEffect } from 'react';
+import { FC, useContext, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
-import { ThemeProvider, createTheme } from '@mui/material/styles';
-import { Context, ContextType} from './context';
-import { UserAuthentication } from './components';
+import { ThemeProvider, createTheme } from '@mui/material/styles'
+import { Context, ContextType} from './context'
+import { UserAuthentication } from './components'
 
 const Home: FC = () => {
-  const router = useRouter();
+  const router = useRouter()
 
   const theme = createTheme({
     colorSchemes: {
       dark: true,
     },
-  });
+  })
 
   const {
     user
@@ -30,7 +30,7 @@ const Home: FC = () => {
         <UserAuthentication />
       </div>
     </ThemeProvider>
-  );
+  )
 }
 
-export default Home;
+export default Home
