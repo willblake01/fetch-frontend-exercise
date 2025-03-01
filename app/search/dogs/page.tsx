@@ -13,7 +13,7 @@ import type { Dog } from '../../types/Dog'
 interface DogIDs {
   next: string
   prev: string
-  resultIds: string[]
+  resultIds: string[] | null
   total: number
 }
 
@@ -25,7 +25,7 @@ const Dogs: FC = () => {
 
   const [isLoading, setIsLoading] = useState(false)
   const [dogs, setDogs] = useState<Dog[]>([])
-  const [dogIDs, setDogIDs] = useState<DogIDs>({ next: '', prev: '', resultIds: [], total: 0 })
+  const [dogIDs, setDogIDs] = useState<DogIDs>({ next: '', prev: '', resultIds: null, total: 0 })
   const { resultIds, total } = dogIDs
   const [page, setPage] = useState(1)
   const [from, setFrom] = useState('0')
@@ -89,19 +89,22 @@ const Dogs: FC = () => {
   }, [ageMax, ageMin, breeds, from, resetAllContext, router, size, setDogIDs, sortDirection, sortField, zipCodes])
 
   const handleFetchDogs = useCallback(async () => {
-    setIsLoading(true)
+    // Make sure we have dog IDs before fetching dogs
+    if (resultIds) {
+      setIsLoading(true)
 
-    await fetchDogs({ resultIds }).then(res => {
-      if (res) {
-        setDogs(res as Dog[])
-      }
-    }).catch(error => {
-      const { message } = error
-      if (message === 'Unauthorized') {
-        router.push('/')
-        resetAllContext()
-      }
-    }).finally(() => setIsLoading(false))
+      await fetchDogs({ resultIds }).then(res => {
+        if (res) {
+          setDogs(res as Dog[])
+        }
+      }).catch(error => {
+        const { message } = error
+        if (message === 'Unauthorized') {
+          router.push('/')
+          resetAllContext()
+        }
+      }).finally(() => setIsLoading(false))
+    }
   }, [resetAllContext, router, resultIds, setDogs])
 
   const handleMatchDog = async () => {
