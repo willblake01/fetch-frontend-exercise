@@ -64,7 +64,7 @@ const Page: FC = () => {
           wrapperStyle={{ position: 'fixed', top: '50vh', left: '50vw', transform: 'translate(-50%, -50%)', zIndex: '9999' }}
         />
         :
-        dog && <MatchCard match={dog} />
+        dog && <div className='mb-6'><MatchCard match={dog} /></div>
       }
     </div>
   )
