@@ -20,7 +20,7 @@ interface DogIDs {
 const Dogs: FC = () => {
   const router = useRouter()
 
-  const { ageMax, setAgeMax, ageMin, setAgeMin, breeds, setBreeds, savedDogs, setSavedDogs, size, setSize, sortDirection, setSortDirection, sortField, setSortField, setUser, zipCodes, setZipCodes} =  useContext(Context
+  const { ageMax, setAgeMax, ageMin, setAgeMin, breeds, setBreeds, savedDogs, setSavedDogs, size, setSize, sortDirection, setSortDirection, sortField, setSortField, user, setUser, zipCodes, setZipCodes} =  useContext(Context
   ) as unknown as ContextType
 
   const [isLoading, setIsLoading] = useState(false)
@@ -41,24 +41,24 @@ const Dogs: FC = () => {
   const resetAllContext = useCallback(() => {
     setAgeMax(null)
     setAgeMin(null)
-    setBreeds([])
-    setSavedDogs([])
+    setBreeds(null)
+    setSavedDogs(null)
     setSize('25')
     setSortDirection('asc')
     setSortField('breed')
     setUser(null)
-    setZipCodes([])
+    setZipCodes(null)
   }, [setAgeMax, setAgeMin, setBreeds, setSavedDogs, setSize, setSortDirection, setSortField, setUser, setZipCodes])
   
   const resetDogContext = useCallback(() => {
     setAgeMax(null)
     setAgeMin(null)
-    setBreeds([])
-    setSavedDogs([])
+    setBreeds(null)
+    setSavedDogs(null)
     setSize('25')
     setSortDirection('asc')
     setSortField('breed')
-    setZipCodes([])
+    setZipCodes(null)
   }, [setAgeMax, setAgeMin, setBreeds, setSavedDogs, setSize, setSortDirection, setSortField, setZipCodes])
 
   const handleFetchDogIDs = useCallback(async () => {
@@ -137,17 +137,17 @@ const Dogs: FC = () => {
 
   useEffect(() => {
     // Don't fetch dog IDs until context is available on window
-    if (breeds) {
+    if (user) {
       handleFetchDogIDs()
     }
-  }, [breeds, handleFetchDogIDs])
+  }, [user, handleFetchDogIDs])
 
   useEffect(() => {
     // Don't fetch dogs until context is available on window
-    if (breeds) {
+    if (user) {
       handleFetchDogs()
     }
-  }, [breeds, handleFetchDogs])
+  }, [user, handleFetchDogs])
 
   return (
     <ThemeProvider theme={theme}>

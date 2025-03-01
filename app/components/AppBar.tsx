@@ -26,13 +26,13 @@ const Appbar: FC = () => {
   const resetAllContext = useCallback(() => {
     setAgeMax(null)
     setAgeMin(null)
-    setBreeds([])
-    setSavedDogs([])
+    setBreeds(null)
+    setSavedDogs(null)
     setSize('25')
     setSortDirection('asc')
     setSortField('breed')
     setUser(null)
-    setZipCodes([])
+    setZipCodes(null)
   }, [setAgeMax, setAgeMin, setBreeds, setSavedDogs, setSize, setSortDirection, setSortField, setUser, setZipCodes])
 
   const handleLogout = async () => {
