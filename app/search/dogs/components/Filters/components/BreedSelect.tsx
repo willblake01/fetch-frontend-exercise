@@ -1,10 +1,13 @@
 import React, { FC, useContext, useEffect, useState } from 'react'
+import { useRouter } from 'next/navigation'
 import { Checkbox, FormControl, InputLabel, ListItemText, MenuItem, OutlinedInput, Select } from '@mui/material'
 import { Context, ContextType } from '@/app/context'
 import { fetchBreeds } from '@/app/api/dogsApi'
 import { SelectChangeEvent } from '@mui/material/Select'
 
 const BreedSelect: FC = () => {
+  const router = useRouter()
+
   const { breeds, setBreeds, setUser } =  useContext(Context) as unknown as ContextType
   const [allBreeds, setAllBreeds] = useState<string[]>([])
 
@@ -31,14 +34,17 @@ const BreedSelect: FC = () => {
   }
 
   useEffect(() => {
-    Promise.all([fetchBreeds()]).then(data => 
-      setAllBreeds(data[0])).catch(error => {
-        const { message } = error
-        if (message === 'Unauthorized') {
-          setUser(null)
-        }
-      })
-  }, [setAllBreeds, setUser])
+    Promise.all([fetchBreeds()])
+    .then(data => 
+      setAllBreeds(data[0]))
+    .catch(error => {
+      const { message } = error
+      if (message === 'Unauthorized') {
+        router.push('/')
+        setUser(null)
+      }
+    })
+  }, [router, setAllBreeds, setUser])
 
   return (
     <FormControl fullWidth>

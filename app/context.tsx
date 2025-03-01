@@ -8,18 +8,18 @@ export interface ContextType {
   setAgeMax: Dispatch<SetStateAction<string | null>>
   ageMin: string | null
   setAgeMin: Dispatch<SetStateAction<string | null>>
-  breeds: string[]
-  setBreeds: Dispatch<SetStateAction<string[]>>
-  savedDogs: string[]
-  setSavedDogs: Dispatch<SetStateAction<string[]>>
+  breeds: string[] | null
+  setBreeds: Dispatch<SetStateAction<string[] | null>>
+  savedDogs: string[] | null
+  setSavedDogs: Dispatch<SetStateAction<string[] | null>>
   size: string
   setSize: Dispatch<SetStateAction<string>>
   sortDirection: string
   setSortDirection: Dispatch<SetStateAction<string>>
   sortField: string
   setSortField: Dispatch<SetStateAction<string>>
-  zipCodes: string[]
-  setZipCodes: Dispatch<SetStateAction<string[]>>
+  zipCodes: string[] | null
+  setZipCodes: Dispatch<SetStateAction<string[] | null>>
   user: User | null
   setUser: Dispatch<SetStateAction<User | null>>
 }
@@ -32,12 +32,12 @@ export const ContextProvider = ({ children }: { children: ReactNode }) => {
   // Filters query params
   const [ageMax, setAgeMax] = useLocalStorage('ageMax', null)
   const [ageMin, setAgeMin] = useLocalStorage('ageMin', null)
-  const [breeds, setBreeds] = useLocalStorage('breeds', [])
-  const [savedDogs, setSavedDogs] = useLocalStorage('savedDogs', [])
+  const [breeds, setBreeds] = useLocalStorage('breeds', null)
+  const [savedDogs, setSavedDogs] = useLocalStorage('savedDogs', null)
   const [size, setSize] = useLocalStorage('size', '25')
   const [sortDirection, setSortDirection] = useLocalStorage('sortDirection', 'asc')
   const [sortField, setSortField] = useLocalStorage('sortField', 'breed')
-  const [zipCodes, setZipCodes] = useLocalStorage('zipCodes', [])
+  const [zipCodes, setZipCodes] = useLocalStorage('zipCodes', null)
 
   const context = {
     ageMax,

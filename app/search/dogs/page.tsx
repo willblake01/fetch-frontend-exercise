@@ -115,8 +115,7 @@ const Dogs: FC = () => {
         })
       }
     }
-    )
-    .then(() => resetDogContext())
+    ).then(() => resetDogContext())
     .catch(error => {
       const { message } = error
       if (message === 'Unauthorized') {
@@ -137,12 +136,18 @@ const Dogs: FC = () => {
   }
 
   useEffect(() => {
-    handleFetchDogIDs()
-  }, [handleFetchDogIDs])
+    // Don't fetch dog IDs until context is available on window
+    if (breeds) {
+      handleFetchDogIDs()
+    }
+  }, [breeds, handleFetchDogIDs])
 
   useEffect(() => {
-    handleFetchDogs()
-  }, [handleFetchDogs])
+    // Don't fetch dogs until context is available on window
+    if (breeds) {
+      handleFetchDogs()
+    }
+  }, [breeds, handleFetchDogs])
 
   return (
     <ThemeProvider theme={theme}>
