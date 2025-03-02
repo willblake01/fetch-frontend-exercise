@@ -25,7 +25,7 @@ interface fetchDogIDsParams {
   params: {
     ageMax?: string | null
     ageMin?: string | null
-    breeds?: string[] | null
+    breeds?: string[]
     from?: string | null
     size?: string | null
     sortDirection?: string | null

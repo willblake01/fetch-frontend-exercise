@@ -8,8 +8,8 @@ export interface ContextType {
   setAgeMax: Dispatch<SetStateAction<string | null>>
   ageMin: string | null
   setAgeMin: Dispatch<SetStateAction<string | null>>
-  breeds: string[] | null
-  setBreeds: Dispatch<SetStateAction<string[] | null>>
+  breeds: string[]
+  setBreeds: Dispatch<SetStateAction<string[]>>
   savedDogs: string[] | null
   setSavedDogs: Dispatch<SetStateAction<string[] | null>>
   size: string
@@ -32,7 +32,7 @@ export const ContextProvider = ({ children }: { children: ReactNode }) => {
   // Filters query params
   const [ageMax, setAgeMax] = useLocalStorage('ageMax', null)
   const [ageMin, setAgeMin] = useLocalStorage('ageMin', null)
-  const [breeds, setBreeds] = useLocalStorage('breeds', null)
+  const [breeds, setBreeds] = useLocalStorage('breeds', [])
   const [savedDogs, setSavedDogs] = useLocalStorage('savedDogs', null)
   const [size, setSize] = useLocalStorage('size', '25')
   const [sortDirection, setSortDirection] = useLocalStorage('sortDirection', 'asc')

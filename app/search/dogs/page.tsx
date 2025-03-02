@@ -41,7 +41,7 @@ const Dogs: FC = () => {
   const resetAllContext = useCallback(() => {
     setAgeMax(null)
     setAgeMin(null)
-    setBreeds(null)
+    setBreeds([])
     setSavedDogs(null)
     setSize('25')
     setSortDirection('asc')
@@ -53,7 +53,7 @@ const Dogs: FC = () => {
   const resetDogContext = useCallback(() => {
     setAgeMax(null)
     setAgeMin(null)
-    setBreeds(null)
+    setBreeds([])
     setSavedDogs(null)
     setSize('25')
     setSortDirection('asc')
@@ -113,12 +113,10 @@ const Dogs: FC = () => {
       if (res) {
         const match = res.match
         router.push(`/dog/${match}`)
-        Alert({
-          title: 'Match Found!',
-        })
       }
     }
-    ).then(() => resetDogContext())
+    )
+    .then(() => resetDogContext())
     .catch(error => {
       const { message } = error
       if (message === 'Unauthorized') {
@@ -159,7 +157,7 @@ const Dogs: FC = () => {
           <Filters />
         </div>
         <div className='flex justify-center items-center mb-4'>
-          <Button sx={{ background: '#7C1E6F', color: '#ffffff', padding: '0.5rem 1rem', borderRadius: '0.313rem' }} className='submit-button' onClick={() => handleMatchDog()} size='medium' type='button' variant='contained'>Match</Button>
+          <Button sx={{ background: '#7C1E6F', color: '#ffffff', padding: '0.5rem 1rem', borderRadius: '0.313rem' }} className='submit-button' onClick={() => [handleMatchDog(), Alert({ title: 'Match Found!' })]} size='medium' type='button' variant='contained'>Match</Button>
         </div>
         <div className='flex-col justify-center'>
           <div className='flex justify-center mb-2'>

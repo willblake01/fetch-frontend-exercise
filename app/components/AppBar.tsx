@@ -26,7 +26,7 @@ const Appbar: FC = () => {
   const resetAllContext = useCallback(() => {
     setAgeMax(null)
     setAgeMin(null)
-    setBreeds(null)
+    setBreeds([])
     setSavedDogs(null)
     setSize('25')
     setSortDirection('asc')

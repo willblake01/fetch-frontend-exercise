@@ -35,8 +35,7 @@ const BreedSelect: FC = () => {
 
   useEffect(() => {
     Promise.all([fetchBreeds()])
-    .then(data => 
-      setAllBreeds(data[0]))
+    .then(data => setAllBreeds(data[0]))
     .catch(error => {
       const { message } = error
       if (message === 'Unauthorized') {
@@ -62,7 +61,7 @@ const BreedSelect: FC = () => {
       >
         {allBreeds?.map(breed => (
           <MenuItem key={breed} value={breed ?? ''}>
-            <Checkbox checked={breeds?.includes(breed)} />
+            <Checkbox checked={breeds.includes(breed)} />
             <ListItemText primary={breed} />
           </MenuItem>
         ))}
