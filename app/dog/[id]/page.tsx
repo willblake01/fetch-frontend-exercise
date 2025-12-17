@@ -10,7 +10,7 @@ import type { DogMatch } from '@/app/types/Dog'
 const Page: FC = () => {
   const params = useParams()
   const router = useRouter()
-  const resetContext = () => useResetContext()
+  const { resetAllContext } = useResetContext()
 
   const { id } = params
 
@@ -29,12 +29,12 @@ const Page: FC = () => {
         const { message } = error
         
         if (message === 'Unauthorized') {
-          resetContext()
+          resetAllContext()
           router.push('/')
         }
       }).finally(() => setIsLoading(false))
     }
-  }, [id, resetContext, router])
+  }, [id, resetAllContext, router])
 
   return (
     <div className='absolute flex justify-center top-60 w-[100vw]'>

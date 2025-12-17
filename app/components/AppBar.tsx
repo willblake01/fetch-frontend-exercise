@@ -10,7 +10,7 @@ import logo from '@/app/public/images/fetch-logo.png'
 
 const Appbar: FC = () => {
   const router = useRouter()
-  const resetContext = useResetContext()
+  const { resetAllContext } = useResetContext()
 
   const {
     user
@@ -18,7 +18,7 @@ const Appbar: FC = () => {
 
   const handleLogout = async () => {
     if (user) {
-      Promise.all([await logout(user)]).then(() => resetContext).then(() => router.push('/')).catch(error => console.error(error))
+      Promise.all([await logout(user)]).then(() => resetAllContext).then(() => router.push('/')).catch(error => console.error(error))
     }
   }
 

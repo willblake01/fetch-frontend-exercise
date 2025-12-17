@@ -20,7 +20,7 @@ interface DogIDs {
 
 const Dogs: FC = () => {
   const router = useRouter()
-  const resetContext = () => useResetContext()
+  const { resetAllContext, resetDogContext } = useResetContext()
 
   const { ageMax, ageMin, breeds, savedDogs, size, sortDirection, sortField, user, zipCodes} =  useContext(Context
   ) as ContextType
@@ -62,10 +62,10 @@ const Dogs: FC = () => {
       const { message } = error
       if (message === 'Unauthorized') {
         router.push('/')
-        resetContext()
+        resetAllContext()
       }
     })
-  }, [ageMax, ageMin, breeds, from, resetContext, router, size, setDogIDs, sortDirection, sortField, zipCodes])
+  }, [ageMax, ageMin, breeds, from, resetAllContext, router, size, setDogIDs, sortDirection, sortField, zipCodes])
 
   const handleFetchDogs = useCallback(async () => {
     // Make sure we have dog IDs before fetching dogs
@@ -80,11 +80,11 @@ const Dogs: FC = () => {
         const { message } = error
         if (message === 'Unauthorized') {
           router.push('/')
-          resetContext()
+          resetAllContext()
         }
       }).finally(() => setIsLoading(false))
     }
-  }, [resetContext, router, resultIds, setDogs])
+  }, [resetAllContext, router, resultIds, setDogs])
 
   const handleMatchDog = async () => {
     setIsLoading(true)
@@ -95,12 +95,12 @@ const Dogs: FC = () => {
       }
     }
     )
-    .then(() => resetContext)
+    .then(() => resetDogContext())
     .catch(error => {
       const { message } = error
       if (message === 'Unauthorized') {
         router.push('/')
-        resetContext()
+        resetAllContext()
       }
     }).finally(() => setIsLoading(false))
   }
