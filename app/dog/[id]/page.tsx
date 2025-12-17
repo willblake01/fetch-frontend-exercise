@@ -7,11 +7,10 @@ import { DogCard } from './components'
 import { LoadingSpinner } from '@/app/components/utils'
 import type { DogMatch } from '@/app/types/Dog'
 
-const resetContext = useResetContext()
-
 const Page: FC = () => {
   const params = useParams()
   const router = useRouter()
+  const resetContext = useResetContext()
 
   const { id } = params
 

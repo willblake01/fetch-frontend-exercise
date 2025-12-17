@@ -18,10 +18,9 @@ interface DogIDs {
   total: number
 }
 
-const resetContext = useResetContext()
-
 const Dogs: FC = () => {
   const router = useRouter()
+  const resetContext = useResetContext()
 
   const { ageMax, ageMin, breeds, savedDogs, size, sortDirection, sortField, user, zipCodes} =  useContext(Context
   ) as ContextType

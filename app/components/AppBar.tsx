@@ -8,10 +8,9 @@ import { useResetContext } from '../hooks/resetContext'
 import { logout } from '../api/userApi'
 import logo from '@/app/public/images/fetch-logo.png'
 
-const resetContext = useResetContext()
-
 const Appbar: FC = () => {
   const router = useRouter()
+  const resetContext = useResetContext()
 
   const {
     user
