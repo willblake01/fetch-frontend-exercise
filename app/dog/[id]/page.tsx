@@ -10,7 +10,7 @@ import type { DogMatch } from '@/app/types/Dog'
 const Page: FC = () => {
   const params = useParams()
   const router = useRouter()
-  const resetContext = useResetContext()
+  const resetContext = () => useResetContext()
 
   const { id } = params
 
@@ -29,7 +29,7 @@ const Page: FC = () => {
         const { message } = error
         
         if (message === 'Unauthorized') {
-          resetContext
+          resetContext()
           router.push('/')
         }
       }).finally(() => setIsLoading(false))

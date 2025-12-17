@@ -20,7 +20,7 @@ interface DogIDs {
 
 const Dogs: FC = () => {
   const router = useRouter()
-  const resetContext = useResetContext()
+  const resetContext = () => useResetContext()
 
   const { ageMax, ageMin, breeds, savedDogs, size, sortDirection, sortField, user, zipCodes} =  useContext(Context
   ) as ContextType
@@ -62,7 +62,7 @@ const Dogs: FC = () => {
       const { message } = error
       if (message === 'Unauthorized') {
         router.push('/')
-        resetContext
+        resetContext()
       }
     })
   }, [ageMax, ageMin, breeds, from, resetContext, router, size, setDogIDs, sortDirection, sortField, zipCodes])
@@ -80,7 +80,7 @@ const Dogs: FC = () => {
         const { message } = error
         if (message === 'Unauthorized') {
           router.push('/')
-          resetContext
+          resetContext()
         }
       }).finally(() => setIsLoading(false))
     }
@@ -100,7 +100,7 @@ const Dogs: FC = () => {
       const { message } = error
       if (message === 'Unauthorized') {
         router.push('/')
-        resetContext
+        resetContext()
       }
     }).finally(() => setIsLoading(false))
   }
