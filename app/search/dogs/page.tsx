@@ -18,6 +18,8 @@ interface DogIDs {
   total: number
 }
 
+const resetContext = useResetContext()
+
 const Dogs: FC = () => {
   const router = useRouter()
 
@@ -61,10 +63,10 @@ const Dogs: FC = () => {
       const { message } = error
       if (message === 'Unauthorized') {
         router.push('/')
-        useResetContext()
+        resetContext
       }
     })
-  }, [ageMax, ageMin, breeds, from, useResetContext, router, size, setDogIDs, sortDirection, sortField, zipCodes])
+  }, [ageMax, ageMin, breeds, from, resetContext, router, size, setDogIDs, sortDirection, sortField, zipCodes])
 
   const handleFetchDogs = useCallback(async () => {
     // Make sure we have dog IDs before fetching dogs
@@ -79,11 +81,11 @@ const Dogs: FC = () => {
         const { message } = error
         if (message === 'Unauthorized') {
           router.push('/')
-          useResetContext()
+          resetContext
         }
       }).finally(() => setIsLoading(false))
     }
-  }, [useResetContext, router, resultIds, setDogs])
+  }, [resetContext, router, resultIds, setDogs])
 
   const handleMatchDog = async () => {
     setIsLoading(true)
@@ -94,12 +96,12 @@ const Dogs: FC = () => {
       }
     }
     )
-    .then(() => useResetContext())
+    .then(() => resetContext)
     .catch(error => {
       const { message } = error
       if (message === 'Unauthorized') {
         router.push('/')
-        useResetContext()
+        resetContext
       }
     }).finally(() => setIsLoading(false))
   }

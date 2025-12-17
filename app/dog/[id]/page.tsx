@@ -7,6 +7,8 @@ import { DogCard } from './components'
 import { LoadingSpinner } from '@/app/components/utils'
 import type { DogMatch } from '@/app/types/Dog'
 
+const resetContext = useResetContext()
+
 const Page: FC = () => {
   const params = useParams()
   const router = useRouter()
@@ -28,12 +30,12 @@ const Page: FC = () => {
         const { message } = error
         
         if (message === 'Unauthorized') {
-          useResetContext()
+          resetContext
           router.push('/')
         }
       }).finally(() => setIsLoading(false))
     }
-  }, [id, useResetContext, router])
+  }, [id, resetContext, router])
 
   return (
     <div className='absolute flex justify-center top-60 w-[100vw]'>

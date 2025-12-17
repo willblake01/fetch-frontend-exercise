@@ -8,6 +8,8 @@ import { useResetContext } from '../hooks/resetContext'
 import { logout } from '../api/userApi'
 import logo from '@/app/public/images/fetch-logo.png'
 
+const resetContext = useResetContext()
+
 const Appbar: FC = () => {
   const router = useRouter()
 
@@ -17,7 +19,7 @@ const Appbar: FC = () => {
 
   const handleLogout = async () => {
     if (user) {
-      Promise.all([await logout(user)]).then(() => useResetContext()).then(() => router.push('/')).catch(error => console.error(error))
+      Promise.all([await logout(user)]).then(() => resetContext).then(() => router.push('/')).catch(error => console.error(error))
     }
   }
 
