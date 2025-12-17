@@ -1,24 +1,30 @@
 const baseUrl = 'https://frontend-take-home-service.fetch.com'
 
-export const fetchBreeds = async () => {
-  const route = '/dogs/breeds'
+const fetchConfig: RequestInit = {
+  method: 'GET',
+  credentials: 'include' as RequestCredentials,
+  headers: {
+    'Content-Type': 'application/json',
+  },
+}
 
-  const response = await fetch(baseUrl + route, {
-    method: 'GET',
-    credentials: 'include',
-    headers: {
-      'Content-Type': 'application/json',
-    },
+const handleResponse = async (response: Response) => {
+  if (response.ok) {
+    return response.json()
+  }
+
+  if (response.status === 401) {
+    throw new Error('Unauthorized')
+  }
+  throw new Error(`Request failed: ${response.statusText}`)
+}
+
+export const fetchBreeds = async () => {
+  const response = await fetch(`${baseUrl}/dogs/breeds`, {
+    ...fetchConfig
   })
 
-  if (response.ok) {
-    const json = await response.json()
-    return json
-  } else if (response.status === 401) {
-    throw new Error('Unauthorized')
-  } else {
-    throw new Error('Failed to fetch breeds')
-  }
+  return handleResponse(response)
 }
 
 interface fetchDogIDsParams {
