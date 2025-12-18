@@ -42,18 +42,20 @@ interface fetchDogIDsParams {
 
 export const fetchDogIDs = async ({ params }: fetchDogIDsParams) => {
   const {  ageMax, ageMin, breeds, from, size, sortDirection, sortField, zipCodes } = params
+
+  const queryParams = new URLSearchParams()
   
-  const ageMaxQuery = ageMax ? `ageMax=${ageMax}` : null
-  const ageMinQuery = ageMin ? `ageMin=${ageMin}` : null
-  const breedsQuery = breeds?.length ? breeds.map(breed => `breeds[]=${breed}`).join('&') : null
-  const fromQuery = from ? `from=${from}` : null
-  const sizeQuery = size ? `size=${size}` : null
-  const sortQuery = sortField && sortDirection ? `sort=${sortField}:${sortDirection}` : null
-  const zipCodesQuery = zipCodes?.length ? zipCodes.map(zipCode => `zipCodes[]=${zipCode}`).join('&') : null
+  if (ageMax) queryParams.append('ageMax', ageMax)
+  if (ageMin) queryParams.append('ageMin', ageMin)
+  if (breeds?.length) breeds.forEach(breed => queryParams.append('breeds[]', breed))
+  if (from) queryParams.append('from', from)
+  if (size) queryParams.append('size', size)
+  if (sortField && sortDirection) queryParams.append('sort', `${sortField}:${sortDirection}`)
+  if (zipCodes?.length) zipCodes.forEach(zip => queryParams.append('zipCodes[]', zip))
 
-  const queryParams = params ? ('?' + [ageMaxQuery, ageMinQuery, breedsQuery, fromQuery, sizeQuery, sortQuery, zipCodesQuery].filter(Boolean).join('&')) : null
+  const queryString = queryParams.toString()
 
-  const route = `/dogs/search${queryParams}`
+  const route = `/dogs/search${queryString ? `?${queryString}` : ''}`
 
   const response = await fetch(baseUrl + route, {
     method: 'GET',

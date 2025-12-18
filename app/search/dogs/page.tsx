@@ -60,6 +60,7 @@ const Dogs: FC = () => {
       }
     }).catch(error => {
       const { message } = error
+
       if (message === 'Unauthorized') {
         router.push('/')
         resetAllContext()
@@ -78,6 +79,7 @@ const Dogs: FC = () => {
         }
       }).catch(error => {
         const { message } = error
+
         if (message === 'Unauthorized') {
           router.push('/')
           resetAllContext()
@@ -88,9 +90,11 @@ const Dogs: FC = () => {
 
   const handleMatchDog = async () => {
     setIsLoading(true)
+
     await matchDog({ savedDogs }).then(res => {
       if (res) {
         const match = res.match
+
         router.push(`/dog/${match}`)
       }
     }
@@ -98,6 +102,7 @@ const Dogs: FC = () => {
     .then(() => resetDogContext())
     .catch(error => {
       const { message } = error
+      
       if (message === 'Unauthorized') {
         router.push('/')
         resetAllContext()
@@ -116,6 +121,7 @@ const Dogs: FC = () => {
   }
 
   useEffect(() => {
+
     // Don't fetch dog IDs until context is available on window
     if (user) {
       handleFetchDogIDs()
@@ -123,6 +129,7 @@ const Dogs: FC = () => {
   }, [user, handleFetchDogIDs])
 
   useEffect(() => {
+
     // Don't fetch dogs until context is available on window
     if (user) {
       handleFetchDogs()
