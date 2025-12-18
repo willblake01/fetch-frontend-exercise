@@ -5,10 +5,11 @@ import { ThemeProvider, createTheme } from '@mui/material/styles'
 import { Button } from '@mui/material'
 import { Context, ContextType } from '../../context'
 import { useResetContext } from '../../hooks/resetContext'
-import { fetchDogIDs, fetchDogs, matchDog } from '@/app/api/dogsApi'
-import { LoadingSpinner, PaginationRounded } from '@/app/components/utils'
+import { fetchDogIDs, fetchDogs, matchDog } from '../../api/dogsApi'
+import { LoadingSpinner, PaginationRounded } from '../../components/utils'
 import { DogCards, Filters } from './components'
-import { Alert } from '@/app/components/utils'
+import { Alert } from '../../components/utils'
+import { handleApiError } from '../../utils'
 import type { Dog } from '../../types/Dog'
 
 interface DogIDs {
@@ -59,12 +60,7 @@ const Dogs: FC = () => {
         setDogIDs(res as DogIDs)
       }
     }).catch(error => {
-      const { message } = error
-
-      if (message === 'Unauthorized') {
-        router.push('/')
-        resetAllContext()
-      }
+      handleApiError(error, router, resetAllContext)
     })
   }, [ageMax, ageMin, breeds, from, resetAllContext, router, size, setDogIDs, sortDirection, sortField, zipCodes])
 
@@ -78,12 +74,7 @@ const Dogs: FC = () => {
           setDogs(res as Dog[])
         }
       }).catch(error => {
-        const { message } = error
-
-        if (message === 'Unauthorized') {
-          router.push('/')
-          resetAllContext()
-        }
+        handleApiError(error, router, resetAllContext)
       }).finally(() => setIsLoading(false))
     }
   }, [resetAllContext, router, resultIds, setDogs])
@@ -101,12 +92,7 @@ const Dogs: FC = () => {
     )
     .then(() => resetDogContext())
     .catch(error => {
-      const { message } = error
-      
-      if (message === 'Unauthorized') {
-        router.push('/')
-        resetAllContext()
-      }
+      handleApiError(error, router, resetAllContext)
     }).finally(() => setIsLoading(false))
   }
 

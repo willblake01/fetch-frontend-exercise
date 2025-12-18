@@ -1,7 +1,7 @@
 'use client'
 import { useEffect, useRef, useState } from 'react'
 
-const useLocalStorage = (
+export const useLocalStorage = (
   key: string,
     defaultValue: null | number | string | boolean | object | Array<string | number | object>,
   { serialize = JSON.stringify, deserialize = JSON.parse } = {}
@@ -43,5 +43,3 @@ const useLocalStorage = (
   
   return [state, setState]
 }
-
-export { useLocalStorage}

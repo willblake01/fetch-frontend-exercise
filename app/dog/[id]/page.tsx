@@ -5,6 +5,7 @@ import { useResetContext } from '../../hooks/resetContext'
 import { fetchDogs } from '@/app/api/dogsApi'
 import { DogCard } from './components'
 import { LoadingSpinner } from '@/app/components/utils'
+import { handleApiError } from '../../utils'
 import type { DogMatch } from '@/app/types/Dog'
 
 const Page: FC = () => {
@@ -27,12 +28,7 @@ const Page: FC = () => {
         }
       })
       .catch(error => {
-        const { message } = error
-        
-        if (message === 'Unauthorized') {
-          resetAllContext()
-          router.push('/')
-        }
+        handleApiError(error, router, resetAllContext)
       }).finally(() => setIsLoading(false))
     }
   }, [id, resetAllContext, router])

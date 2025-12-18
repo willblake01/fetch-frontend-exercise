@@ -1,12 +1,15 @@
 import { FC, useContext, useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { Checkbox, FormControl, InputLabel, ListItemText, MenuItem, OutlinedInput, Select } from '@mui/material'
-import { Context, ContextType } from '@/app/context'
-import { fetchBreeds } from '@/app/api/dogsApi'
 import { SelectChangeEvent } from '@mui/material/Select'
+import { Context, ContextType } from '@/app/context'
+import { useResetContext } from '@/app/hooks'
+import { fetchBreeds } from '@/app/api/dogsApi'
+import { handleApiError } from '@/app/utils'
 
 const BreedSelect: FC = () => {
   const router = useRouter()
+  const { resetAllContext } = useResetContext()
 
   const { breeds, setBreeds, setUser } =  useContext(Context) as unknown as ContextType
   const [allBreeds, setAllBreeds] = useState<string[]>([])
@@ -37,11 +40,7 @@ const BreedSelect: FC = () => {
     Promise.all([fetchBreeds()])
     .then(data => setAllBreeds(data[0]))
     .catch(error => {
-      const { message } = error
-      if (message === 'Unauthorized') {
-        router.push('/')
-        setUser(null)
-      }
+      handleApiError(error, router, resetAllContext)
     })
   }, [router, setAllBreeds, setUser])
 
