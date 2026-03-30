@@ -1,15 +1,16 @@
 'use client'
 import { FC, useContext } from 'react'
-import { useRouter } from 'next/navigation'
+import { useRouter, usePathname } from 'next/navigation'
 import Image from 'next/image'
 import { AppBar, Box, Button, Toolbar, Typography } from '@mui/material'
 import { Context, ContextType } from '../context'
-import { useResetContext } from '../hooks/resetContext'
+import { useResetContext } from '@/app/hooks'
 import { logout } from '../api/userApi'
 import logo from '@/app/public/images/fetch-logo.png'
 
 const Appbar: FC = () => {
   const router = useRouter()
+  const pathname = usePathname()
   const { resetAllContext } = useResetContext()
 
   const {
@@ -42,7 +43,7 @@ const Appbar: FC = () => {
         </div>
         <Toolbar>
           {
-            user ? <Button color='inherit' onClick={() => handleLogout()} sx={{ position: 'absolute', right: '0' }}>Logout</Button> : null
+            user && pathname !== '/' ? <Button color='inherit' onClick={() => handleLogout()} sx={{ position: 'absolute', right: '0' }}>Logout</Button> : null
           }
         </Toolbar>
       </AppBar>
