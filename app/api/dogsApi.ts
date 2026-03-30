@@ -1,4 +1,4 @@
-const baseUrl = 'https://frontend-take-home-service.fetch.com'
+import { BASE_URL } from "@/lib/constants"
 
 const fetchConfig: RequestInit = {
   method: 'GET',
@@ -27,7 +27,7 @@ const handleResponse = async (response: Response) => {
 }
 
 export const fetchBreeds = async () => {
-  const response = await fetch(`${baseUrl}/dogs/breeds`, {
+  const response = await fetch(`${BASE_URL}/dogs/breeds`, {
     ...fetchConfig
   })
 
@@ -64,7 +64,7 @@ export const fetchDogIDs = async ({ params }: FetchDogIDsParams) => {
 
   const route = `/dogs/search${queryString ? `?${queryString}` : ''}`
 
-  const response = await fetch(baseUrl + route, {
+  const response = await fetch(BASE_URL + route, {
     ...fetchConfig
   })
 
@@ -78,7 +78,7 @@ interface FetchDogsParams {
 export const fetchDogs = async ({ resultIds }: FetchDogsParams) => {
   const route = '/dogs'
 
-  const response = await fetch(baseUrl + route, buildPostConfig(resultIds))
+  const response = await fetch(BASE_URL + route, buildPostConfig(resultIds))
 
   return handleResponse(response)
 }
@@ -92,7 +92,7 @@ export const matchDog = async ({ savedDogs }: SavedDogs) => {
 
   if (!savedDogs?.length) throw new Error('No saved dogs to match')
 
-  const response = await fetch(baseUrl + route, buildPostConfig(savedDogs))
+  const response = await fetch(BASE_URL + route, buildPostConfig(savedDogs))
 
   return handleResponse(response)
 }

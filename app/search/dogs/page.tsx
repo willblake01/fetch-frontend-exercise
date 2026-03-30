@@ -73,11 +73,11 @@ const Dogs: FC = () => {
     }
 
     try {
-      const res = await fetchDogIDs({ params })
+      const response = await fetchDogIDs({ params })
 
-      if (res) {
-        setDogIDs(res)
-        await handleFetchDogs(res.resultIds)
+      if (response) {
+        setDogIDs(response)
+        await handleFetchDogs(response.resultIds)
       }
     } catch (error) {
       if (error instanceof Error) {
@@ -92,12 +92,12 @@ const Dogs: FC = () => {
     setIsLoading(true)
 
     try {
-      const res = await matchDog({ savedDogs })
+      const response = await matchDog({ savedDogs })
 
-      if (res) {
+      if (response) {
         resetDogContext()
         await Alert({ title: 'Match Found!' })
-        router.push(`/dog/${res.match}`)
+        router.push(`/dog/${response.match}`)
       }
     } catch (error) {
       if (error instanceof Error) {
