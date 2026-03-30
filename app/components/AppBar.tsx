@@ -19,7 +19,13 @@ const Appbar: FC = () => {
 
   const handleLogout = async () => {
     if (user) {
-      Promise.all([await logout(user)]).then(() => resetAllContext).then(() => router.push('/')).catch(error => console.error(error))
+      try {
+        await logout(user)
+        resetAllContext()
+        router.push('/')
+      } catch (error) {
+        console.error(error)
+      }
     }
   }
 

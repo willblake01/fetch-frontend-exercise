@@ -22,7 +22,7 @@ const Login: FC = () => {
     if (user) {
       router.push('/search/dogs')
     }
-  })
+  }, [user, router])
 
   return (
     <ThemeProvider theme={theme}>

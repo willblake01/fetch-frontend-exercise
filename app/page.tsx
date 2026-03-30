@@ -1,8 +1,19 @@
 'use client'
 import { useRouter } from 'next/navigation'
+import { useContext } from 'react'
+import { Context, ContextType } from './context'
 
 export default function Home() {
   const router = useRouter()
+  const { user } = useContext(Context) as unknown as ContextType
+  
+  const handleStartSearching = () => {
+    if (user) {
+      router.push('/search/dogs')
+    } else {
+      router.push('/login')
+    }
+  }
   
   return (
     <div 
@@ -19,7 +30,7 @@ export default function Home() {
           Find your perfect match!
         </h1>
         <button
-          onClick={() => router.push('/login')}
+          onClick={handleStartSearching}
           className="bg-[#7C1E6F] hover:bg-[#5d1753] text-white font-bold text-lg px-8 py-4 rounded-lg shadow-xl transition-colors duration-300"
         >
           Start Searching

@@ -116,6 +116,12 @@ const Dogs: FC = () => {
   }
 
   useEffect(() => {
+    if (!user) {
+      router.push('/')
+    }
+  }, [user, router])
+
+  useEffect(() => {
 
     // Don't fetch dog IDs until context is available on window
     if (user) {
