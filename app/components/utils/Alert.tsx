@@ -5,8 +5,8 @@ interface AlertProps {
   text?: string
 }
 
-export const Alert = ({ title, text }: AlertProps): void => {
-  Swal.fire({
+export const Alert = async ({ title, text }: AlertProps): Promise<void> => {
+  await Swal.fire({
     icon: 'success',
     confirmButtonColor: '#7C1E6F',
     title,

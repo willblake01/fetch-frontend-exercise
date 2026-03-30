@@ -4,7 +4,7 @@ import { useRouter } from 'next/navigation'
 import { ThemeProvider, createTheme } from '@mui/material/styles'
 import { Button } from '@mui/material'
 import { Context, ContextType } from '../../context'
-import { useResetContext } from '../../hooks/resetContext'
+import { useResetContext } from '@/app/hooks'
 import { fetchDogIDs, fetchDogs, matchDog } from '../../api/dogsApi'
 import { LoadingSpinner, PaginationRounded } from '../../components/utils'
 import { DogCards, Filters } from './components'
@@ -65,17 +65,21 @@ const Dogs: FC = () => {
   }, [ageMax, ageMin, breeds, from, resetAllContext, router, size, setDogIDs, sortDirection, sortField, zipCodes])
 
   const handleFetchDogs = useCallback(async () => {
+
     // Make sure we have dog IDs before fetching dogs
     if (resultIds) {
       setIsLoading(true)
 
-      await fetchDogs({ resultIds }).then(res => {
+      await fetchDogs({ resultIds })
+      .then(res => {
         if (res) {
           setDogs(res as Dog[])
         }
-      }).catch(error => {
+      })
+      .catch(error => {
         handleApiError(error, router, resetAllContext)
-      }).finally(() => setIsLoading(false))
+      })
+      .finally(() => setIsLoading(false))
     }
   }, [resetAllContext, router, resultIds, setDogs])
 
@@ -90,10 +94,16 @@ const Dogs: FC = () => {
       }
     }
     )
-    .then(() => resetDogContext())
+    .then(() => {
+      resetDogContext()
+    })
     .catch(error => {
       handleApiError(error, router, resetAllContext)
-    }).finally(() => setIsLoading(false))
+    })
+    .finally(() => {
+      setIsLoading(false)
+      Alert({ title: 'Match Found!' })
+    })
   }
 
   const handlePageChange = (event: ChangeEvent<unknown>, value: number) => {
@@ -129,7 +139,7 @@ const Dogs: FC = () => {
           <Filters />
         </div>
         <div className='flex justify-center items-center mb-4'>
-          <Button sx={{ background: '#7C1E6F', color: '#ffffff', padding: '0.5rem 1rem', borderRadius: '0.313rem' }} className='submit-button' onClick={() => [handleMatchDog(), Alert({ title: 'Match Found!' })]} size='medium' type='button' variant='contained'>Match</Button>
+          <Button sx={{ background: '#7C1E6F', color: '#ffffff', padding: '0.5rem 1rem', borderRadius: '0.313rem' }} className='submit-button' onClick={() => [handleMatchDog()]} size='medium' type='button' variant='contained'>Match</Button>
         </div>
         <div className='flex-col justify-center'>
           <div className='flex justify-center mb-2'>

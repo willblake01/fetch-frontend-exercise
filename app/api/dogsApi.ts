@@ -8,6 +8,13 @@ const fetchConfig: RequestInit = {
   },
 }
 
+const buildPostConfig = (body: unknown): RequestInit => ({
+  method: 'POST',
+  credentials: 'include',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify(body),
+})
+
 const handleResponse = async (response: Response) => {
   if (response.ok) {
     return response.json()
@@ -27,7 +34,7 @@ export const fetchBreeds = async () => {
   return handleResponse(response)
 }
 
-interface fetchDogIDsParams {
+interface FetchDogIDsParams {
   params: {
     ageMax?: string | null
     ageMin?: string | null
@@ -40,65 +47,40 @@ interface fetchDogIDsParams {
   }
 }
 
-export const fetchDogIDs = async ({ params }: fetchDogIDsParams) => {
+export const fetchDogIDs = async ({ params }: FetchDogIDsParams) => {
   const {  ageMax, ageMin, breeds, from, size, sortDirection, sortField, zipCodes } = params
 
   const queryParams = new URLSearchParams()
   
   if (ageMax) queryParams.append('ageMax', ageMax)
   if (ageMin) queryParams.append('ageMin', ageMin)
-  if (breeds?.length) breeds.forEach(breed => queryParams.append('breeds[]', breed))
+  if (breeds?.length) breeds.forEach(breed => queryParams.append('breeds', breed))
   if (from) queryParams.append('from', from)
   if (size) queryParams.append('size', size)
   if (sortField && sortDirection) queryParams.append('sort', `${sortField}:${sortDirection}`)
-  if (zipCodes?.length) zipCodes.forEach(zip => queryParams.append('zipCodes[]', zip))
+  if (zipCodes?.length) zipCodes.forEach(zip => queryParams.append('zipCodes', zip))
 
   const queryString = queryParams.toString()
 
   const route = `/dogs/search${queryString ? `?${queryString}` : ''}`
 
   const response = await fetch(baseUrl + route, {
-    method: 'GET',
-    credentials: 'include',
-    headers: {
-      'Content-Type': 'application/json',
-    }
+    ...fetchConfig
   })
 
-  if (response.ok) {
-    const json = await response.json()
-    return json
-  } else if (response.status === 401) {
-    throw new Error('Unauthorized')
-  } else {
-    throw new Error('Failed to fetch Dog IDs')
-  }
+  return handleResponse(response)
 }
 
-interface DogIDs {
+interface FetchDogsParams {
   resultIds: string[]
 }
 
-export const fetchDogs = async ({ resultIds }: DogIDs) => {
+export const fetchDogs = async ({ resultIds }: FetchDogsParams) => {
   const route = '/dogs'
 
-  const response = await fetch(baseUrl + route, {
-    method: 'POST',
-    credentials: 'include',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(resultIds)
-  })
+  const response = await fetch(baseUrl + route, buildPostConfig(resultIds))
 
-  if (response.ok) {
-    const json = await response.json()
-    return json
-  } else if (response.status === 401) {
-    throw new Error('Unauthorized')
-  } else {
-    throw new Error('Failed to fetch dogs')
-  }
+  return handleResponse(response)
 }
 
 interface SavedDogs {
@@ -108,21 +90,9 @@ interface SavedDogs {
 export const matchDog = async ({ savedDogs }: SavedDogs) => {
   const route = '/dogs/match'
 
-  const response = await fetch(baseUrl + route, {
-    method: 'POST',
-    credentials: 'include',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(savedDogs)
-  })
+  if (!savedDogs?.length) throw new Error('No saved dogs to match')
 
-  if (response.ok) {
-    const json = await response.json()
-    return json
-  } else if (response.status === 401) {
-    throw new Error('Unauthorized')
-  } else {
-    throw new Error('Failed to match dogs')
-  }
+  const response = await fetch(baseUrl + route, buildPostConfig(savedDogs))
+
+  return handleResponse(response)
 }
