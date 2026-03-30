@@ -19,6 +19,12 @@ interface DogIDs {
   total: number
 }
 
+const theme = createTheme({
+  colorSchemes: {
+    dark: true,
+  },
+})
+
 const Dogs: FC = () => {
   const router = useRouter()
   const { resetAllContext, resetDogContext } = useResetContext()
@@ -29,17 +35,28 @@ const Dogs: FC = () => {
   const [isLoading, setIsLoading] = useState(false)
   const [dogs, setDogs] = useState<Dog[]>([])
   const [dogIDs, setDogIDs] = useState<DogIDs>({ next: '', prev: '', resultIds: null, total: 0 })
-  const { resultIds, total } = dogIDs
   const [page, setPage] = useState(1)
-  const [from, setFrom] = useState('0')
 
-  const theme = createTheme({
-    colorSchemes: {
-      dark: true,
-    },
-  })
+  const from = ((page - 1) * (Number(size) || 25)).toString()
 
-  const totalPages = Math.ceil(total / (size ? Number(size) : 25))
+  const totalPages = Math.ceil(dogIDs.total / (Number(size) || 25))
+
+  const handleFetchDogs = useCallback(async (resultIds: string[]) => {
+    setIsLoading(true)
+
+    await fetchDogs({ resultIds })
+        .then(res => {
+          if (res) {
+            setDogs(res as Dog[])
+          }
+        })
+        .catch(error => {
+          if (error instanceof Error) {
+            handleApiError(error, router, resetAllContext)
+          }
+        })
+        .finally(() => setIsLoading(false))
+  }, [resetAllContext, router])
 
   const handleFetchDogIDs = useCallback(async () => {
     setIsLoading(true)
@@ -55,55 +72,40 @@ const Dogs: FC = () => {
       zipCodes: zipCodes,
     }
 
-    await fetchDogIDs({ params }).then(res => {
+    try {
+      const res = await fetchDogIDs({ params })
+
       if (res) {
-        setDogIDs(res as DogIDs)
+        setDogIDs(res)
+        await handleFetchDogs(res.resultIds)
       }
-    }).catch(error => {
-      handleApiError(error, router, resetAllContext)
-    })
-  }, [ageMax, ageMin, breeds, from, resetAllContext, router, size, setDogIDs, sortDirection, sortField, zipCodes])
-
-  const handleFetchDogs = useCallback(async () => {
-
-    // Make sure we have dog IDs before fetching dogs
-    if (resultIds) {
-      setIsLoading(true)
-
-      await fetchDogs({ resultIds })
-      .then(res => {
-        if (res) {
-          setDogs(res as Dog[])
-        }
-      })
-      .catch(error => {
+    } catch (error) {
+      if (error instanceof Error) {
         handleApiError(error, router, resetAllContext)
-      })
-      .finally(() => setIsLoading(false))
+      }
+    } finally {
+      setIsLoading(false)
     }
-  }, [resetAllContext, router, resultIds, setDogs])
+  }, [ageMax, ageMin, breeds, from, handleFetchDogs, resetAllContext, router, size, sortDirection, sortField, zipCodes])
 
   const handleMatchDog = async () => {
     setIsLoading(true)
 
-    await matchDog({ savedDogs }).then(res => {
-      if (res) {
-        const match = res.match
+    try {
+      const res = await matchDog({ savedDogs })
 
-        router.push(`/dog/${match}`)
+      if (res) {
+        resetDogContext()
+        await Alert({ title: 'Match Found!' })
+        router.push(`/dog/${res.match}`)
       }
-    }
-    )
-    .then(() => {
-      resetDogContext()
-    })
-    .catch(error => {
-      handleApiError(error, router, resetAllContext)
-    })
-    .finally(() => {
+    } catch (error) {
+      if (error instanceof Error) {
+        handleApiError(error, router, resetAllContext)
+      }
+    } finally {
       setIsLoading(false)
-      Alert({ title: 'Match Found!' })
-    })
+    }
   }
 
   const handlePageChange = (event: ChangeEvent<unknown>, value: number) => {
@@ -111,26 +113,19 @@ const Dogs: FC = () => {
 
     setIsLoading(true)
     setPage(value)
-
-    const paginationCursor = (value - 1) * (Number(size) ? Number(size) : 25)
-    setFrom(paginationCursor.toString())
   }
 
   useEffect(() => {
 
     // Don't fetch dog IDs until context is available on window
     if (user) {
-      handleFetchDogIDs()
+      const fetchData = async () => {
+        await handleFetchDogIDs()
+      }
+
+      void fetchData()
     }
   }, [user, handleFetchDogIDs])
-
-  useEffect(() => {
-
-    // Don't fetch dogs until context is available on window
-    if (user) {
-      handleFetchDogs()
-    }
-  }, [user, handleFetchDogs])
 
   return (
     <ThemeProvider theme={theme}>
@@ -139,11 +134,11 @@ const Dogs: FC = () => {
           <Filters />
         </div>
         <div className='flex justify-center items-center mb-4'>
-          <Button sx={{ background: '#7C1E6F', color: '#ffffff', padding: '0.5rem 1rem', borderRadius: '0.313rem' }} className='submit-button' onClick={() => [handleMatchDog()]} size='medium' type='button' variant='contained'>Match</Button>
+          <Button sx={{ background: '#7C1E6F', color: '#ffffff', padding: '0.5rem 1rem', borderRadius: '0.313rem' }} className='submit-button' onClick={handleMatchDog} size='medium' type='button' variant='contained'>Match</Button>
         </div>
         <div className='flex-col justify-center'>
           <div className='flex justify-center mb-2'>
-            <PaginationRounded count={totalPages} onChange={(e:             ChangeEvent<unknown>, value: number) => handlePageChange(e, value)} page={page} />
+            <PaginationRounded count={totalPages} onChange={(e: ChangeEvent<unknown>, value: number) => handlePageChange(e, value)} page={page} />
           </div>
           {
             isLoading ?
@@ -161,7 +156,7 @@ const Dogs: FC = () => {
                 <DogCards dogs={dogs} />
               </div>
               <div className='flex justify-center'>
-                <PaginationRounded count={totalPages} onChange={(e:             ChangeEvent<unknown>, value: number) => handlePageChange(e, value)} page={page} />
+                <PaginationRounded count={totalPages} onChange={(e: ChangeEvent<unknown>, value: number) => handlePageChange(e, value)} page={page} />
               </div>
             </>
           }
