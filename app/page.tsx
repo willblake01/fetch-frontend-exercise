@@ -6,7 +6,7 @@ export default function Home() {
   
   return (
     <div 
-      className="relative w-full h-screen bg-cover bg-center bg-no-repeat flex flex-col items-center pt-16 overflow-y-auto"
+      className="relative w-full min-h-screen bg-cover bg-center bg-no-repeat flex flex-col items-center pt-16 overflow-y-auto"
       style={{
         backgroundImage: 'url(https://res.cloudinary.com/willblake01/image/upload/v1774907831/playing-puppies_w6tf9m.webp)',
       }}
@@ -70,4 +70,7 @@ export default function Home() {
     </div>
   )
 }
+
+
+
 
