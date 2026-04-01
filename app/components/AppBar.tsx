@@ -2,7 +2,7 @@
 import { FC, useContext } from 'react'
 import { useRouter, usePathname } from 'next/navigation'
 import Image from 'next/image'
-import { AppBar, Box, Button, Toolbar, Typography } from '@mui/material'
+import { AppBar, Button, Toolbar, Typography } from '@mui/material'
 import { Context, ContextType } from '../context'
 import { useResetContext } from '@/app/hooks'
 import { logout } from '../api/userApi'
@@ -30,30 +30,25 @@ const Appbar: FC = () => {
   }
 
   return (
-    <Box sx={{ flexGrow: 1 }}>
-      <AppBar position='static' sx={{ bgcolor: '#7C1E6F', display: 'flex', flexDirection: 'row', flexGrow: 1, padding: '1.25rem' }}>
-        <Image alt='logo' className='logo' onClick={() => {
-          if (!user) {
-            router.push('/')
-          } else {
-            router.push('/search/dogs')
-          }
-        }} src={logo} style={{ position: 'absolute' }} />
-        <div className='flex items-center justify-center w-full'>
-          <Typography
-            component={'h2'}
-            dangerouslySetInnerHTML={{ __html: 'Rescue' }}
-            fontFamily='FingerPaint'
-            variant={'h1'}
-          />
-        </div>
-        <Toolbar>
-          {
-            user && pathname !== '/' ? <Button color='inherit' onClick={() => handleLogout()} sx={{ position: 'absolute', right: '0' }}>Logout</Button> : null
-          }
-        </Toolbar>
-      </AppBar>
-    </Box>
+    <AppBar position='static' sx={{ bgcolor: '#7C1E6F', padding: '1.25rem' }}>
+      <Toolbar sx={{ position: 'relative', justifyContent: 'center' }}>
+        <Image
+          alt='logo'
+          className='logo'
+          src={logo}
+          onClick={() => router.push(user ? '/search/dogs' : '/')}
+          style={{ position: 'absolute', left: 0, cursor: 'pointer' }}
+        />
+        <Typography component={'h1'} fontFamily='FingerPaint' variant={'h1'}>
+          Rescue
+        </Typography>
+        {user && pathname !== '/' && (
+            <Button color='inherit' onClick={handleLogout} sx={{ position: 'absolute', right: 0 }}>
+              Logout
+            </Button>
+        )}
+      </Toolbar>
+    </AppBar>
   )
 }
 
