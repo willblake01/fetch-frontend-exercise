@@ -1,39 +1,48 @@
 'use client'
-import { FC, FormEvent, useContext } from 'react';
+import { FC, FormEvent, useContext, useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { Context, ContextType } from '../../context';
-import { login } from '../../api/userApi';
-import { AuthenticationCard } from './components';
+import { Context, ContextType } from '../../context'
+import { login } from '../../api/userApi'
+import { AuthenticationCard } from './components'
 
 const UserAuthentication: FC = () => {
-  const router = useRouter();
+  const router = useRouter()
 
-  const {
-    setUser
-  } = useContext(Context) as unknown as ContextType
+  const { setUser } = useContext(Context) as ContextType
 
-  const handleLogin = async () => {
-    const nameInput = document.getElementById('name-input') as HTMLInputElement;
-    const emailInput = document.getElementById('email-input') as HTMLInputElement;
-    
-    const name = nameInput.value;
-    const email = emailInput.value;
+  const [name, setName] = useState('')
+  const [email, setEmail] = useState('')
+  const [isLoading, setIsLoading] = useState(false)
+  const [error, setError] = useState<string | null>(null)
 
-    const clearInputs = () => {
-    (document.getElementById('name-input') as HTMLInputElement).value = '';
-    (document.getElementById('email-input') as HTMLInputElement).value = '';
-  }
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    setIsLoading(true)
+    setError(null)
 
-    Promise.all([await login({ name, email }), clearInputs()]).then(() => setUser({ name, email })).then(() => router.push('/search/dogs'));
-  }
-
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    handleLogin();
+    try {
+      await login({ name, email })
+      setUser({ name, email })
+      router.push('/search/dogs')
+    } catch (err) {
+      setError(`Error: ${err}: Login failed. Please try again`)
+    } finally {
+      setIsLoading(false)
+      setName('')
+      setEmail('')
+    }
   }
 
   return (
-    <AuthenticationCard onSubmit={handleSubmit} />
+    <AuthenticationCard
+        name={name}
+        email={email}
+        onNameChange={setName}
+        onEmailChange={setEmail}
+        onSubmit={handleSubmit}
+        isLoading={isLoading}
+        error={error}
+    />
   )
 }
 
