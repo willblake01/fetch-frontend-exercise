@@ -42,7 +42,7 @@ const BreedSelect: FC = () => {
     .catch(error => {
       handleApiError(error, router, resetAllContext)
     })
-  }, [router, setAllBreeds, setUser])
+  }, [resetAllContext, router, setAllBreeds, setUser])
 
   return (
     <FormControl fullWidth>

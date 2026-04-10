@@ -25,7 +25,7 @@ const UserAuthentication: FC = () => {
       setUser({ name, email })
       router.push('/search/dogs')
     } catch (err) {
-      setError(`Error: ${err}: Login failed. Please try again`)
+      setError(`${err}: Login failed. Please try again`)
     } finally {
       setIsLoading(false)
       setName('')
