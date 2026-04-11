@@ -33,6 +33,7 @@ const Dogs: FC = () => {
   ) as ContextType
 
   const [isLoading, setIsLoading] = useState(false)
+  const [isContextReady, setIsContextReady] = useState(false)
   const [dogs, setDogs] = useState<Dog[]>([])
   const [dogIDs, setDogIDs] = useState<DogIDs>({ next: '', prev: '', resultIds: null, total: 0 })
   const [page, setPage] = useState(1)
@@ -116,10 +117,16 @@ const Dogs: FC = () => {
   }
 
   useEffect(() => {
-    if (!user) {
-      router.push('/')
+    // Wait for initial mount to allow localStorage to hydrate
+    setIsContextReady(true)
+  }, [])
+
+  useEffect(() => {
+    // Only redirect after context is ready
+    if (isContextReady && !user) {
+      router.push('/login')
     }
-  }, [user, router])
+  }, [user, router, isContextReady])
 
   useEffect(() => {
 
@@ -135,7 +142,7 @@ const Dogs: FC = () => {
 
   return (
     <ThemeProvider theme={theme}>
-      <div className='mb-20'>
+      <div className='pb-16'>
         <div className='flex justify-center size-full gap-4 p-6'>
           <Filters />
         </div>
@@ -158,7 +165,7 @@ const Dogs: FC = () => {
               wrapperStyle={{ position: 'fixed', top: '50vh', left: '50vw', transform: 'translate(-50%, -50%)', zIndex: '9999' }}
             /> :
             <>
-              <div className='flex flex-wrap gap-6 justify-center mb-6 p-4'>
+              <div className='flex flex-wrap gap-6 justify-start mb-6 p-4'>
                 <DogCards dogs={dogs} />
               </div>
               <div className='flex justify-center'>
