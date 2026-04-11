@@ -20,7 +20,8 @@ const SortDirection = () => {
       <InputLabel id='sort-direction-select-label'>Direction</InputLabel>
       <Select
         id='sort-direction-select'
-        label='Sort Direction'
+        name='sortDirection'
+        label='Direction'
         labelId='sort-direction-select-label'
         onChange={handleChange}
         value={sortDirection ?? ''}

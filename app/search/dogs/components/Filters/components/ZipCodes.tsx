@@ -17,12 +17,12 @@ const ZipCodes: FC = () => {
     } = event
 
     setZipCodes(
-      typeof value === 'string' && value.length ? value.split(',') : [],
+      value.length ? value.split(',') : [],
     )
   }
 
   return (
-    <TextField fullWidth id='zipCodes' label='Zip Codes' onChange={handleChange} value={zipCodes || ''} variant='outlined' />
+    <TextField fullWidth id='zipCodes' name='zipCodes' label='Zip Codes' onChange={handleChange} value={zipCodes || ''} variant='outlined' />
   )
 }
 export default ZipCodes

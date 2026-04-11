@@ -18,6 +18,7 @@ const AgeMaxSelect = () => {
       <InputLabel id='age-max-select-label'>Age Max</InputLabel>
       <Select
         id='age-max-select'
+        name='ageMax'
         label='Age Max'
         labelId='age-max-select-label'
         onChange={handleChange}

@@ -20,7 +20,8 @@ const SortField = () => {
       <InputLabel id='sort-field-select-label'>Sort</InputLabel>
       <Select
         id='sort-field-select'
-        label='Sort Field'
+        name='sortField'
+        label='Sort'
         labelId='sort-field-select-label'
         onChange={handleChange}
         value={sortField ?? ''}

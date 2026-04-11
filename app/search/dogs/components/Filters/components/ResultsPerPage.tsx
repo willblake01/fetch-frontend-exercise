@@ -18,6 +18,7 @@ const ResultsPerPage = () => {
       <InputLabel id='results-per-page-select-label'>Results Per Page</InputLabel>
       <Select
         id='results-per-page-select'
+        name='resultsPerPage'
         label='Results Per Page'
         labelId='results-per-page-select-label'
         onChange={handleChange}

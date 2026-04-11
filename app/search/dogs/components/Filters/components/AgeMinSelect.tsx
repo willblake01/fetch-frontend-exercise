@@ -18,6 +18,7 @@ const AgeMinSelect = () => {
       <InputLabel id='age-min-select-label'>Age Min</InputLabel>
       <Select
         id='age-min-select'
+        name='ageMin'
         label='Age Min'
         labelId='age-min-select-label'
         onChange={handleChange}

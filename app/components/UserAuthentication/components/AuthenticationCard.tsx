@@ -27,17 +27,23 @@ const AuthenticationCard = ({ name, email, onNameChange, onEmailChange, onSubmit
           autoComplete='off'
         >
           <TextField
+              id='name'
+              name='name'
               label='Name'
               variant='outlined'
               value={name}
               onChange={(e) => onNameChange(e.target.value)}
+              autoComplete='name'
           />
           <TextField
+              id='email'
+              name='email'
               label='Email'
               variant='outlined'
               type='email'
               value={email}
               onChange={(e) => onEmailChange(e.target.value)}
+              autoComplete='email'
           />
             {error && <Typography color ='error'>{error}</Typography>}
           <Button

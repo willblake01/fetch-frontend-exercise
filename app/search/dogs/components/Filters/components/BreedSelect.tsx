@@ -49,7 +49,8 @@ const BreedSelect: FC = () => {
       <InputLabel id='breeds-select-label'>Breeds</InputLabel>
       <Select
         id='select-breeds'
-        input={<OutlinedInput label='Tag' />}
+        name='breeds'
+        input={<OutlinedInput label='Breeds' />}
         label='Breeds'
         labelId='breeds-select-label'
         MenuProps={MenuProps}
