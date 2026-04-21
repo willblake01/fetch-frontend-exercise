@@ -15,15 +15,16 @@ const buildPostConfig = (body: unknown): RequestInit => ({
   body: JSON.stringify(body),
 })
 
-const handleResponse = async (response: Response) => {
-  if (response.ok) {
-    return response.json()
+const handleResponse = (response: Response) => {
+  if (!response.ok) {
+    if (response.status === 401) {
+      throw new Error('Unauthorized')
+    }
+
+    throw new Error(`Request failed: ${response.statusText}`)
   }
 
-  if (response.status === 401) {
-    throw new Error('Unauthorized')
-  }
-  throw new Error(`Request failed: ${response.statusText}`)
+  return response.json()
 }
 
 export const fetchBreeds = async () => {

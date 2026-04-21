@@ -1,11 +1,11 @@
 # Fetch Rescue
 
-![Fetch Rescue](https://res.cloudinary.com/willblake01/image/upload/v1770242342/portfolio/fetch-rescue_jabauq.webp)
+![Fetch Rescue](https://res.cloudinary.com/willblake01/image/upload/v1770242342/portfolio/fetch-rescue.webp)
 
 ### Instructions
 * Login with your name and email
 * On the search dogs page filter dogs by your desired criteria
-* Select the dogs you'd like to include in your match algorithm by clicking the card, they will hightlight in purple
+* Select the dogs you'd like to include in your match algorithm by clicking the card, they will highlight in purple
 * Once you've made your selections click match and meet your new dog!!!
 
 ### Requirements
