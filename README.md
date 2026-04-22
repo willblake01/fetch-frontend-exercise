@@ -1,6 +1,6 @@
 # Fetch Rescue
 
-![Fetch Rescue](https://res.cloudinary.com/willblake01/image/upload/v1770242342/portfolio/fetch-rescue.webp)
+![Fetch Rescue](https://res.cloudinary.com/willblake01/image/upload/q_auto/f_auto/v1770242342/portfolio/fetch-rescue.webp)
 
 ### Instructions
 * Login with your name and email
