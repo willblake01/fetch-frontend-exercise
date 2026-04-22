@@ -1,14 +1,18 @@
-import { BASE_URL } from "@/lib/constants"
+import { BASE_URL } from '@/lib/constants'
 
 const fetchConfig: RequestInit = {
   method: 'GET',
-  credentials: 'include' as RequestCredentials,
+  credentials: 'include',
   headers: {
     'Content-Type': 'application/json',
   },
 }
 
-const buildPostConfig = (body: unknown): RequestInit => ({
+interface BuildPostConfigParams {
+  body: string[] | object[];
+}
+
+const buildPostConfig = ({body}: BuildPostConfigParams): RequestInit => ({
   method: 'POST',
   credentials: 'include',
   headers: { 'Content-Type': 'application/json' },
@@ -79,7 +83,7 @@ interface FetchDogsParams {
 export const fetchDogs = async ({ resultIds }: FetchDogsParams) => {
   const route = '/dogs'
 
-  const response = await fetch(BASE_URL + route, buildPostConfig(resultIds))
+  const response = await fetch(BASE_URL + route, buildPostConfig({body: resultIds}))
 
   return handleResponse(response)
 }
@@ -93,7 +97,7 @@ export const matchDog = async ({ savedDogs }: SavedDogs) => {
 
   if (!savedDogs?.length) throw new Error('No saved dogs to match')
 
-  const response = await fetch(BASE_URL + route, buildPostConfig(savedDogs))
+  const response = await fetch(BASE_URL + route, buildPostConfig({body: savedDogs}))
 
   return handleResponse(response)
 }
