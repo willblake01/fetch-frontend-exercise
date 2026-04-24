@@ -1,7 +1,7 @@
 'use client'
 import { FC, useEffect, useState } from 'react'
 import { useParams, useRouter } from 'next/navigation'
-import { useResetContext } from '../../hooks/resetContext'
+import { useResetContext } from '@/app/hooks'
 import { fetchDogs } from '@/app/api/dogsApi'
 import { DogCard } from './components'
 import { LoadingSpinner } from '@/app/components/utils'
