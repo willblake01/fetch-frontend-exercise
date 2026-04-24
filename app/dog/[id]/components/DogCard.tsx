@@ -1,11 +1,12 @@
 import { Card, CardContent, CardMedia, Typography } from '@mui/material'
 import { DogMatch } from '@/app/types/Dog'
+import {JSX} from "react";
 
-interface DogMatchProps {
+export interface DogCardProps {
   dog: DogMatch
 }
 
-const DogCard = ({ dog }: DogMatchProps) => {
+export const DogCard = ({ dog }: DogCardProps): JSX.Element => {
   const { age, breed, img, name, zip_code  } = dog
 
   const dogAgeText = (age) > 1 ? 'years' : 'year'

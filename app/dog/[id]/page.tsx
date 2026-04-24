@@ -41,13 +41,19 @@ const Page: () => JSX.Element = () => {
         isLoading
           ?
         <LoadingSpinner
+          height='180'
+          width='180'
           ariaLabel='dna-loading'
+          wrapperStyle={{
+            position: 'fixed',
+            top: '50vh',
+            left: '50vw',
+            transform: 'translate(-50%, -50%)',
+            zIndex: '9999'
+          }}
           ballColors={['var(--loadingSpinnerBallColors)', 'var(--loadingSpinnerBallColors)', 'var(--loadingSpinnerBallColors)']}
           backgroundColor='var(--loadingSpinnerBackgroundColor)'
-          height='180'
           visible={isLoading}
-          width='180'
-          wrapperStyle={{ position: 'fixed', top: '50vh', left: '50vw', transform: 'translate(-50%, -50%)', zIndex: '9999' }}
         />
         :
         dog && <div className='mb-6'><DogCard dog={dog} /></div>
