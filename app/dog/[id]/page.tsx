@@ -1,5 +1,5 @@
 'use client'
-import { FC, useEffect, useState } from 'react'
+import { JSX, useEffect, useState} from 'react'
 import { useParams, useRouter } from 'next/navigation'
 import { useResetContext } from '@/app/hooks'
 import { fetchDogs } from '@/app/api/dogsApi'
@@ -8,7 +8,7 @@ import { LoadingSpinner } from '@/app/components/utils'
 import { handleApiError } from '../../utils'
 import type { DogMatch } from '@/app/types/Dog'
 
-const Page: FC = () => {
+const Page: () => JSX.Element = () => {
   const params = useParams()
   const router = useRouter()
   const { resetAllContext } = useResetContext()
@@ -22,7 +22,9 @@ const Page: FC = () => {
     if (id) {
       setIsLoading(true)
       
-      fetchDogs({ resultIds: Array.isArray(id) ? id : [id] }).then(response => {
+      const resultIds = Array.isArray(id) ? id : [id as string]
+
+      fetchDogs({ resultIds }).then(response => {
         if (response) {
           setDog(response[0])
         }
