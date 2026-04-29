@@ -1,18 +1,18 @@
-import { FC, useContext, useEffect, useState } from 'react'
-import { useRouter } from 'next/navigation'
+import { FC, useContext } from 'react'
 import { Checkbox, FormControl, InputLabel, ListItemText, MenuItem, OutlinedInput, Select } from '@mui/material'
 import { SelectChangeEvent } from '@mui/material/Select'
 import { Context, ContextType } from '@/app/context'
-import { useResetContext } from '@/app/hooks'
+import { useData } from '@/app/hooks'
 import { fetchBreeds } from '@/app/api/dogsApi'
-import { handleApiError } from '@/app/utils'
 
 const BreedSelect: FC = () => {
-  const router = useRouter()
-  const { resetAllContext } = useResetContext()
+  const { breeds, setBreeds } = useContext(Context) as unknown as ContextType
 
-  const { breeds, setBreeds, setUser } =  useContext(Context) as unknown as ContextType
-  const [allBreeds, setAllBreeds] = useState<string[]>([])
+  // Use useData hook to fetch breeds on mount
+  const { data: allBreeds } = useData(
+    () => fetchBreeds(),
+    []  // Empty deps array = fetch once on mount
+  )
 
   const ITEM_HEIGHT = 48
   const ITEM_PADDING_TOP = 8
@@ -36,13 +36,6 @@ const BreedSelect: FC = () => {
     )
   }
 
-  useEffect(() => {
-    Promise.all([fetchBreeds()])
-    .then(data => setAllBreeds(data[0]))
-    .catch(error => {
-      handleApiError(error, router, resetAllContext)
-    })
-  }, [resetAllContext, router, setAllBreeds, setUser])
 
   return (
     <FormControl fullWidth>
@@ -59,7 +52,7 @@ const BreedSelect: FC = () => {
         renderValue={(selected) => selected.join(', ')}
         value={breeds ?? []}
       >
-        {allBreeds?.map(breed => (
+        {(allBreeds || []).map((breed: string) => (
           <MenuItem key={breed} value={breed ?? ''}>
             <Checkbox checked={breeds.includes(breed)} />
             <ListItemText primary={breed} />

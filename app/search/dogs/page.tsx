@@ -1,23 +1,15 @@
 'use client'
-import { ChangeEvent, FC, useCallback, useContext, useEffect, useState } from 'react'
+import { ChangeEvent, FC, useContext, useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { ThemeProvider, createTheme } from '@mui/material/styles'
 import { Button } from '@mui/material'
 import { Context, ContextType } from '../../context'
-import { useResetContext } from '@/app/hooks'
+import { useResetContext, useData } from '@/app/hooks'
 import { fetchDogIDs, fetchDogs, matchDog } from '../../api/dogsApi'
 import { LoadingSpinner, PaginationRounded } from '../../components/utils'
 import { DogCards, Filters } from './components'
 import { Alert } from '../../components/utils'
 import { handleApiError } from '../../utils'
-import type { Dog } from '../../types/Dog'
-
-interface DogIDs {
-  next: string
-  prev: string
-  resultIds: string[] | null
-  total: number
-}
 
 const theme = createTheme({
   colorSchemes: {
@@ -34,60 +26,36 @@ const Dogs: FC = () => {
 
   const [isLoading, setIsLoading] = useState(false)
   const [isContextReady, setIsContextReady] = useState(false)
-  const [dogs, setDogs] = useState<Dog[]>([])
-  const [dogIDs, setDogIDs] = useState<DogIDs>({ next: '', prev: '', resultIds: null, total: 0 })
   const [page, setPage] = useState(1)
 
   const from = ((page - 1) * (Number(size) || 25)).toString()
 
-  const totalPages = Math.ceil(dogIDs.total / (Number(size) || 25))
+  const params = {
+    ageMax: ageMax || null,
+    ageMin: ageMin || null,
+    breeds: breeds,
+    from: from,
+    size: size,
+    sortDirection: sortDirection,
+    sortField: sortField,
+    zipCodes: zipCodes,
+  }
 
-  const handleFetchDogs = useCallback(async (resultIds: string[]) => {
-    setIsLoading(true)
+  // Use useData hook to fetch dog IDs when search params change
+  const { data: dogIDs, isLoading: isLoadingDogIDs } = useData(
+    () => fetchDogIDs({ params }),
+    [ageMax, ageMin, breeds, from, size, sortDirection, sortField, zipCodes, user],
+    { skip: !user }
+  )
 
-    await fetchDogs({ resultIds })
-        .then(res => {
-          if (res) {
-            setDogs(res as Dog[])
-          }
-        })
-        .catch(error => {
-          if (error instanceof Error) {
-            handleApiError(error, router, resetAllContext)
-          }
-        })
-        .finally(() => setIsLoading(false))
-  }, [resetAllContext, router])
+  const totalPages = Math.ceil((dogIDs?.total || 0) / (Number(size) || 25))
 
-  const handleFetchDogIDs = useCallback(async () => {
-    setIsLoading(true)
-
-    const params = {
-      ageMax: ageMax || null,
-      ageMin: ageMin || null,
-      breeds: breeds,
-      from: from,
-      size: size,
-      sortDirection: sortDirection,
-      sortField: sortField,
-      zipCodes: zipCodes,
-    }
-
-    try {
-      const response = await fetchDogIDs({ params })
-
-      if (response) {
-        setDogIDs(response)
-        await handleFetchDogs(response.resultIds)
-      }
-    } catch (error) {
-      if (error instanceof Error) {
-        handleApiError(error, router, resetAllContext)
-      }
-    } finally {
-      setIsLoading(false)
-    }
-  }, [ageMax, ageMin, breeds, from, handleFetchDogs, resetAllContext, router, size, sortDirection, sortField, zipCodes])
+  // Use useData hook to fetch dogs when resultIds change
+  const { data: dogs, isLoading: isLoadingDogs } = useData(
+    () => fetchDogs({ resultIds: dogIDs?.resultIds || [] }),
+    [dogIDs?.resultIds],
+    { skip: !dogIDs?.resultIds?.length }
+  )
 
   const handleMatchDog = async () => {
     setIsLoading(true)
@@ -111,8 +79,6 @@ const Dogs: FC = () => {
 
   const handlePageChange = (event: ChangeEvent<unknown>, value: number) => {
     event.preventDefault()
-
-    setIsLoading(true)
     setPage(value)
   }
 
@@ -128,17 +94,6 @@ const Dogs: FC = () => {
     }
   }, [user, router, isContextReady])
 
-  useEffect(() => {
-
-    // Don't fetch dog IDs until context is available on window
-    if (user) {
-      const fetchData = async () => {
-        await handleFetchDogIDs()
-      }
-
-      void fetchData()
-    }
-  }, [user, handleFetchDogIDs])
 
   return (
     <ThemeProvider theme={theme}>
@@ -154,19 +109,19 @@ const Dogs: FC = () => {
             <PaginationRounded count={totalPages} onChange={(e: ChangeEvent<unknown>, value: number) => handlePageChange(e, value)} page={page} />
           </div>
           {
-            isLoading ?
+            (isLoading || isLoadingDogIDs || isLoadingDogs) ?
             <LoadingSpinner
               ariaLabel='dna-loading'
               ballColors={['var(--loadingSpinnerBallColors)', 'var(--loadingSpinnerBallColors)', 'var(--loadingSpinnerBallColors)']}
               backgroundColor='var(--loadingSpinnerBackgroundColor)'
               height='180'
-              visible={isLoading}
+              visible={isLoading || isLoadingDogIDs || isLoadingDogs}
               width='180'
               wrapperStyle={{ position: 'fixed', top: '50vh', left: '50vw', transform: 'translate(-50%, -50%)', zIndex: '9999' }}
             /> :
             <>
               <div className='flex flex-wrap gap-6 justify-start mb-6 p-4'>
-                <DogCards dogs={dogs} />
+                <DogCards dogs={dogs || []} />
               </div>
               <div className='flex justify-center'>
                 <PaginationRounded count={totalPages} onChange={(e: ChangeEvent<unknown>, value: number) => handlePageChange(e, value)} page={page} />

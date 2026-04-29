@@ -1,39 +1,24 @@
 'use client'
-import { JSX, useEffect, useState} from 'react'
-import { useParams, useRouter } from 'next/navigation'
-import { useResetContext } from '@/app/hooks'
+import { JSX } from 'react'
+import { useParams } from 'next/navigation'
 import { fetchDogs } from '@/app/api/dogsApi'
+import { useData } from '@/app/hooks'
 import { DogCard } from './components'
 import { LoadingSpinner } from '@/app/components/utils'
-import { handleApiError } from '../../utils'
-import type { DogMatch } from '@/app/types/Dog'
 
 const Page: () => JSX.Element = () => {
   const params = useParams()
-  const router = useRouter()
-  const { resetAllContext } = useResetContext()
 
   const { id } = params
 
-  const [dog, setDog] = useState<DogMatch | null>(null)
-  const [isLoading, setIsLoading] = useState(false)
+  const resultIds = Array.isArray(id) ? id : [id as string]
 
-  useEffect(() => {
-    if (id) {
-      setIsLoading(true)
-      
-      const resultIds = Array.isArray(id) ? id : [id as string]
+  const { data: dogs, isLoading } = useData(
+      () => fetchDogs({ resultIds }),
+      [id]
+  )
 
-      fetchDogs({ resultIds }).then(response => {
-        if (response) {
-          setDog(response[0])
-        }
-      })
-      .catch(error => {
-        handleApiError(error, router, resetAllContext)
-      }).finally(() => setIsLoading(false))
-    }
-  }, [id, resetAllContext, router])
+  const dog = dogs?.[0] ?? null
 
   return (
     <div className='absolute flex justify-center top-60 w-[100vw]'>
