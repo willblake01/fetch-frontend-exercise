@@ -1,6 +1,6 @@
 import { useRouter } from "next/navigation";
 import { useResetContext } from "@/app/hooks/resetContext";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { handleApiError } from "@/app/utils";
 import { Alert } from "@/app/components/utils";
 
@@ -19,8 +19,15 @@ export const useData = <T,>(
     const [data, setData] = useState<T | null>(null)
     const [isLoading, setIsLoading] = useState(false)
     const [error, setError] = useState<Error | null>(null)
+    const isFirstRender = useRef(true)
 
     useEffect(() => {
+        // Clear stale data when deps change (except on first render)
+        if (!isFirstRender.current) {
+            setData(null)
+        }
+        isFirstRender.current = false
+
         if (options?.skip) return
 
         setIsLoading(true)
