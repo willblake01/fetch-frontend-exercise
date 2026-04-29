@@ -94,6 +94,12 @@ const Dogs: FC = () => {
     }
   }, [user, router, isContextReady])
 
+  useEffect(() => {
+    // Reset to page 1 when filters or results per page change
+    setPage(1)
+  }, [ageMax, ageMin, breeds, size, sortDirection, sortField, zipCodes])
+
+
 
   return (
     <ThemeProvider theme={theme}>
